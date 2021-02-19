@@ -1,6 +1,11 @@
 package com.iflytek.vivian.traffic.server.client;
 
+import com.iflytek.ast.sdk.session.AstSessionClient;
+import com.iflytek.ast.sdk.session.AstSessionResponse;
 import com.iflytek.ast.sdk.session.RequestParam;
+import com.iflytek.ast.sdk.session.data.LatticeItem;
+import com.iflytek.ast.sdk.session.data.ResultItem;
+import com.iflytek.ast.sdk.session.data.ResultWordItem;
 import com.iflytek.vivian.traffic.server.constants.ErrorCode;
 import com.iflytek.vivian.traffic.server.dto.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -8,11 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.channels.OverlappingFileLockException;
+import java.util.UUID;
 import java.util.logging.FileHandler;
 
 /**
@@ -25,6 +28,9 @@ import java.util.logging.FileHandler;
 @Slf4j
 @Service
 public class AstAbilityClient {
+    /**
+     * 在线语音识别服务
+     */
     private String astAbilityUrl;
 
     private StringBuilder result = new StringBuilder();
@@ -35,6 +41,11 @@ public class AstAbilityClient {
     @PostConstruct
     public  void init() {}
 
+    /**
+     * 在线语音识别服务的能力使用
+     * @param audioFile
+     * @return
+     */
     public Result<String> ast(MultipartFile audioFile) {
         try {
             long startTime = System.currentTimeMillis();
@@ -68,7 +79,55 @@ public class AstAbilityClient {
      * 单条转写测试
      */
     public void ast(File d) throws Exception {
-        RequestParam requestParam = new RequestParam();
+        RequestParam requestParam = new RequestParam("bizId001", UUID.randomUUID().toString(), "WebSocket");
+        requestParam.setDomain("2001");
+        AstSessionClient astSessionClient = new AstSessionClient(astAbilityUrl, requestParam);
+        // 接收服务器端返回的数据
+        AstSessionResponse astSessionResponse = new AstSessionResponse() {
+            @Override
+            public void onCallback(LatticeItem latticeItem) {
+                if ("sentence".equals(latticeItem.getMsgtype())) {
+                    result.append(getSentence(latticeItem));
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                e.printStackTrace();
+                log.error(e.getMessage());
+            }
+
+            @Override
+            public void onClosed(String reason) {
+                log.info("closed : reason: {} " + reason);
+            }
+        };
+
+        boolean isConnect = astSessionClient.connect(astSessionResponse);
+        if (isConnect) {
+            try {
+                RandomAccessFile randomAccessFile = new RandomAccessFile(d, "r");
+                byte[] buffer = new byte[100*32];
+                while (true) {
+                    int ret = randomAccessFile.read(buffer);
+                    if (ret > 0) {
+                        astSessionClient.post(buffer);
+                        Thread.sleep(100);
+                    } else {
+                        break;
+                    }
+                }
+                randomAccessFile.close();
+                astSessionClient.end();
+            } catch (Exception e) {
+                e.printStackTrace();
+                astSessionClient.close();
+            }
+        }
+        // 结束会话
+        astSessionClient.end();
+        // 关闭客户端
+        astSessionClient.close();
     }
 
     public void inputStreamToFile(InputStream ins, File file) {
@@ -84,5 +143,20 @@ public class AstAbilityClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String getSentence(LatticeItem latticeItem) {
+        StringBuilder stringBuilder = new StringBuilder();
+        ResultItem[] resultItems = latticeItem.getWs();
+        if (null != resultItems) {
+            for (ResultItem resultItem : resultItems) {
+                ResultWordItem[] resultWordItems = resultItem.getCw();
+                System.err.print(resultWordItems[0].getW());
+                for (ResultWordItem resultWordItem : resultWordItems) {
+                    stringBuilder.append(resultWordItem.getW());
+                }
+            }
+        }
+        return stringBuilder.toString();
     }
 }

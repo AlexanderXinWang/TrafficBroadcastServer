@@ -10,4 +10,5 @@ package com.iflytek.vivian.traffic.server.utils;
 public class StringUtil {
     private StringUtil() {}
 
+
 }

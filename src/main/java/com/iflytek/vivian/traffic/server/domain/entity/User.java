@@ -1,11 +1,94 @@
 package com.iflytek.vivian.traffic.server.domain.entity;
 
+import lombok.Data;
+import org.aspectj.lang.annotation.DeclareAnnotation;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.Date;
+
 /**
  * @ClassName User
- * @Description TODO
  * @Author xinwang41
  * @Date 2021/1/4 10:44
  * @Version 1.0
  **/
+@Data
+@Entity
+@Table(name = "t_policeman")
 public class User {
+    /**
+     * id
+     */
+    @Id
+    @Column
+    private String id;
+
+    /**
+     * 名字
+     */
+    @Column
+    private String name;
+
+    /**
+     * 英文名
+     */
+    @Column(name="name_en")
+    private String nameEN;
+
+    /**
+     * 职位
+     */
+    @Column
+    private String role;
+
+    /**
+     * 年龄
+     */
+    @Column
+    private int age;
+
+    /**
+     *  所处位置（地点）
+     */
+    @Column
+    private String place;
+
+    /**
+     *  所属部门
+     */
+    @Column
+    private String department;
+
+    /**
+     * 状态
+     */
+    @Column
+    private String status;
+
+    /**
+     * 编号
+     */
+    @Column
+    private String number;
+
+    /**
+     * imageId,人脸库图片id
+     */
+    @Column(name="image_id")
+    private String imageId;
+
+    /**
+     * 创建时间
+     */
+    @Column(name="create_time")
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    @Column(name="update_time")
+    private Date updateTime;
 }
