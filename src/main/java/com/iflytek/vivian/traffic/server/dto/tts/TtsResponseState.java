@@ -1,12 +1,14 @@
 package com.iflytek.vivian.traffic.server.dto.tts;
 
+import lombok.Data;
+
 /**
  * @ClassName TtsResponseState
- * @Description TODO
  * @Author xinwang41
  * @Date 2021/2/19 15:01
- * @Version 1.0
  **/
+
+@Data
 public class TtsResponseState {
 
     String resultCode;
