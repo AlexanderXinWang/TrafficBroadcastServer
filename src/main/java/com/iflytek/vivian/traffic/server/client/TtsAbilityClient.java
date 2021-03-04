@@ -76,4 +76,54 @@ public class TtsAbilityClient {
             log.info("请求接口[{}] {} ,耗时:{}s", success? "S" : "F", url, stopWatch.getTotalTimeSeconds() );
         }
     }
+
+    /**
+     * 获取二进制数据
+     * @param ttsActionParam
+     * @return
+     */
+    public byte[] stream(TtsActionParam ttsActionParam) {
+        String url = ttsAbilityUrl + "/tuling/tts/v2/stream";
+        long startTime = System.currentTimeMillis();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");//数据类型为json格式，
+        String ttsTextStr = com.alibaba.fastjson.JSON.toJSONString(ttsActionParam);
+
+        RequestBody partBody = RequestBody.create(JSON, ttsTextStr);
+        byte[] bodyResult = postT(url,partBody);
+        long endTime = System.currentTimeMillis();
+        log.info(">>>>>>语音合成服务服务 tts, 耗时{}ms.", endTime - startTime);
+        return bodyResult;
+    }
+
+    /**
+     * post 请求,获取回应 byte[]
+     * @param url
+     * @param body
+     * @return
+     */
+    private byte[] postT(String url, RequestBody body){
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+        OkHttpClient okHttpClient = new OkHttpClient();
+
+        StopWatch stopWatch=new StopWatch();
+        boolean success=false;
+        try {
+            stopWatch.start();
+            Response response =okHttpClient.newCall(request).execute();
+            if (response.isSuccessful()){
+                success=true;
+                return response.body().bytes();
+            }else{
+                throw new FdbRequestException("请求错误:"+response.message());
+            }
+        } catch (IOException e) {
+            throw new FdbRequestException("请求错误:"+e.getMessage());
+        }finally {
+            stopWatch.stop();
+            log.info("请求接口[{}] {} ,耗时:{}S",success?"S":"F",url,stopWatch.getTotalTimeSeconds());
+        }
+    }
 }

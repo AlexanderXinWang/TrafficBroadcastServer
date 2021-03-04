@@ -34,4 +34,19 @@ public class TtsService {
             throw new BaseException(ErrorCode.FAIL, "识别错误:" + e.getMessage());
         }
     }
+
+    /**
+     *  获取二进制数据
+     * @param ttsActionParam
+     * @return
+     */
+    public byte[] stream(TtsActionParam ttsActionParam){
+
+        try {
+            return ttsAbilityClient.stream(ttsActionParam);
+        }catch (Exception e){
+            log.error("识别发生错误:{}",e.getMessage(),e);
+            throw new BaseException(ErrorCode.FAIL, "识别错误:" + e.getMessage());
+        }
+    }
 }
