@@ -7,7 +7,6 @@ import com.iflytek.vivian.traffic.server.constants.ErrorCode;
  * @Description 基础错误类型定义
  * @Author xinwang41
  * @Date 2021/1/4 10:50
- * @Version 1.0
  **/
 public class BaseException extends RuntimeException {
     private static final long serialVersionUID = 8944431786441920015L;

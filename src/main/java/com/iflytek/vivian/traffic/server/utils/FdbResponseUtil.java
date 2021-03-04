@@ -6,10 +6,8 @@ import java.util.List;
 
 /**
  * @ClassName FdbResponseUtil
- * @Description TODO
  * @Author xinwang41
  * @Date 2021/1/4 11:00
- * @Version 1.0
  **/
 public class FdbResponseUtil {
     public static boolean isSuccess(FdbResultResponse rst){
