@@ -1,5 +1,12 @@
 package com.iflytek.vivian.traffic.server.controller;
 
+import com.iflytek.vivian.traffic.server.domain.service.TtsService;
+import com.iflytek.vivian.traffic.server.dto.TtsActionParam;
+import com.iflytek.vivian.traffic.server.dto.tts.TtsResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 /**
  * @ClassName TtsController
  * @Description TODO
@@ -8,4 +15,17 @@ package com.iflytek.vivian.traffic.server.controller;
  * @Version 1.0
  **/
 public class TtsController {
+    @Autowired
+    private TtsService ttsService;
+
+    /**
+     * 获取MP3下载地址
+     * @param ttsActionParam
+     * @return
+     */
+    /*@PostMapping("/ttsmp3")
+    @ResponseBody
+    public TtsResponse ttsMp3(TtsActionParam ttsActionParam){
+        return ttsService.ttsMp3(ttsActionParam);
+    }*/
 }

@@ -8,13 +8,13 @@ import com.iflytek.vivian.traffic.server.dto.tts.TtsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @ClassName PulicController
  * @Author xinwang41
  * @Date 2021/1/4 10:43
- * @Version 1.0
  **/
 public class PublicController {
     @Autowired
@@ -27,7 +27,13 @@ public class PublicController {
         return astAbilityClient.ast(audioFile);
     }
 
+    /**
+     * 获取MP3下载地址
+     * @param ttsActionParam
+     * @return
+     */
     @PostMapping("/ttsmp3")
+    @ResponseBody
     public TtsResponse ttsMp3(TtsActionParam ttsActionParam) {
         return ttsService.ttsMp3(ttsActionParam);
     }
