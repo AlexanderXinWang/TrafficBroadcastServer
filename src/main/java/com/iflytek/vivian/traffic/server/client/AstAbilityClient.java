@@ -8,15 +8,28 @@ import com.iflytek.ast.sdk.session.data.ResultItem;
 import com.iflytek.ast.sdk.session.data.ResultWordItem;
 import com.iflytek.vivian.traffic.server.constants.ErrorCode;
 import com.iflytek.vivian.traffic.server.dto.Result;
+import com.iflytek.vivian.traffic.server.utils.AssembleAuthUrlUtil;
+import com.iflytek.vivian.traffic.server.utils.StringUtil;
+
 import lombok.extern.slf4j.Slf4j;
+
+import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
-import java.nio.channels.OverlappingFileLockException;
+
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
-import java.util.logging.FileHandler;
+
+
 
 /**
  * @ClassName AstAbilityClient
@@ -28,10 +41,33 @@ import java.util.logging.FileHandler;
 @Slf4j
 @Service
 public class AstAbilityClient {
+    @Value("${ability.ast.hostUrl}")
+    private String hostUrl;
+    @Value("${ability.ast.host}")
+    private String host;
+    @Value("${ability.ast.path}")
+    private String path;
+    @Value("${ability.ast.apiKey}")
+    private String apikey;
+    @Value("${ability.ast.apiSecret}")
+    private String apiSecret;
+
+    @Autowired
+    private AssembleAuthUrlUtil assembleAuthUrlUtil;
+
     /**
-     * 在线语音识别服务
+     * 在线语音识别服务鉴权地址生成
      */
     private String astAbilityUrl;
+    {
+        try {
+            astAbilityUrl = assembleAuthUrlUtil.assembleAuthUrl(hostUrl, host, path, apiSecret, apikey);
+        } catch (NoSuchAlgorithmException e) {
+            log.error("算法出错");
+        } catch (InvalidKeyException e) {
+            log.error("密钥出错");
+        }
+    }
 
     private StringBuilder result = new StringBuilder();
 

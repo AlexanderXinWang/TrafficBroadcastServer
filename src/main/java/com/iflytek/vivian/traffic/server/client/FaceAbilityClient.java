@@ -17,11 +17,13 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 /**
  * @ClassName FaceAbilityClient
  * @Description 静态人脸检测服务调用端代码
+ * @Description TODO
  * @Author xinwang41
  * @Date 2021/1/4 10:41
  **/
@@ -30,10 +32,13 @@ import java.util.List;
 @Slf4j
 public class FaceAbilityClient {
     /**
-     * 静态人脸识别服务的url地址,这个根据能力在application.properties中填写正确的地址
+     * 静态人脸识别服务的url地址
      */
     @Value("${ability.face.url}")
-    private String faceAbilityUrl;
+    private String faceUrl;
+
+
+    private String faceAbilityUrl = faceUrl;
 
     /**
      * spring初始化时会调用此方法,实现bean初始化

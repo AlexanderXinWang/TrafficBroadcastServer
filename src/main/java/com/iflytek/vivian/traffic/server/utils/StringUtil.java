@@ -2,6 +2,10 @@ package com.iflytek.vivian.traffic.server.utils;
 
 import com.iflytek.vivian.traffic.server.dto.NlpMapConfig;
 import com.iflytek.vivian.traffic.server.dto.Position;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +29,7 @@ public class StringUtil {
 
     @Autowired
     private NlpMapConfig nlpMapConfig;
+
     /**
      * 正则匹配
      *
@@ -120,4 +125,10 @@ public class StringUtil {
     }
 
 
+    public String utcTime() {
+        final String UTC_FORMATTER_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        DateTimeFormatter fmt = DateTimeFormat.forPattern(UTC_FORMATTER_PATTERN);
+        DateTime now = DateTime.now(DateTimeZone.UTC);
+        return fmt.print(now);
+    }
 }

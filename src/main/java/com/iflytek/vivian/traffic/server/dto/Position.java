@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
  **/
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Position {
     private int sentenceStartPos;
     private int startPos;
