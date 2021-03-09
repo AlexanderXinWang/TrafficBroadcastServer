@@ -27,19 +27,16 @@ public class PolicemanController {
     private PolicemanService policemanService;
 
     /**
-     *  警员登陆
-     * @param file
+     * 警员登陆
+     * @param userDto
      * @return
      */
     @PostMapping("/login")
     @ResponseBody
-    public Result<User> login(@RequestPart("file") MultipartFile file){
+    public Result<User> login(UserDto userDto){
         try {
-            return policemanService.searchForImage(file.getBytes());
-        } catch (IOException e) {
-            log.error("获取用户图片失败:{}",e.getMessage(),e);
-            return Result.fail("用户图片上传失败");
-        }catch (BaseException e){
+            return policemanService.login(userDto);
+        } catch (BaseException e){
             return Result.fail(e);
         }
     }
