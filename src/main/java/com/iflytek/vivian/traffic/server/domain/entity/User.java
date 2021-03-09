@@ -13,7 +13,6 @@ import java.util.Date;
  * @ClassName User
  * @Author xinwang41
  * @Date 2021/1/4 10:44
- * @Version 1.0
  **/
 @Data
 @Entity

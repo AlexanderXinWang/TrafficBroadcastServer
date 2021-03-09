@@ -12,7 +12,6 @@ import java.util.Date;
  * @ClassName Event
  * @Author xinwang41
  * @Date 2021/1/4 10:44
- * @Version 1.0
  **/
 @Data
 @Entity
@@ -27,6 +26,9 @@ public class Event {
 
     @Column(name = "policeman_id")
     private String policemanId;
+
+    @Column(name = "policeman_name")
+    private String policemanName;
 
     /**
      * 事件类型
