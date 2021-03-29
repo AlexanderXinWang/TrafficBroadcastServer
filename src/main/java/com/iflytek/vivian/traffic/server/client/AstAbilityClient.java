@@ -63,9 +63,9 @@ public class AstAbilityClient {
         try {
             astAbilityUrl = assembleAuthUrlUtil.assembleAuthUrl(hostUrl, host, path, apiSecret, apikey);
         } catch (NoSuchAlgorithmException e) {
-            log.error("算法出错");
+//            log.error("算法出错");
         } catch (InvalidKeyException e) {
-            log.error("密钥出错");
+//            log.error("密钥出错");
         }
     }
 
