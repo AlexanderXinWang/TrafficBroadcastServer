@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.PostConstruct;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -39,15 +40,19 @@ import java.util.*;
  * 添加后会显示该方言/语种的参数值
  */
 public class IatAbilityClient extends WebSocketListener {
-    @Value("${ability.iat.hostUrl")
-    private String hostUrl; //中英文，http url 不支持解析 ws/wss schema
+    /*@Value("${ability.iat.hostUrl")
+    private static String hostUrl; //中英文，http url 不支持解析 ws/wss schema
     @Value("${ability.iat.appId")
-    private String appId;
+    private static String appId;
     @Value("${ability.iat.apiSecret")
-    private String apiSecret;
+    private static String apiSecret;
     @Value("${ability.iat.apiKey")
-    private String apiKey;
-    private static final String file = "resource\\iat\\16k_10.pcm"; // 中文
+    private static String apiKey;*/
+    private static final String hostUrl = "https://iat-api.xfyun.cn/v2/iat"; //中英文，http url 不支持解析 ws/wss schema
+    private static final String appId = "60346977"; //在控制台-我的应用获取
+    private static final String apiSecret = "6dafbf23712da829593bc7141a202b93"; //在控制台-我的应用-语音听写（流式版）获取
+    private static final String apiKey = "61581ff635d25cac9edc3eb101743a7d"; //在控制台-我的应用-语音听写（流式版）获取
+    private static final String file = "src\\main\\resources\\iat\\iat_test.mp3"; // 中文
     public static final int StatusFirstFrame = 0;
     public static final int StatusContinueFrame = 1;
     public static final int StatusLastFrame = 2;
@@ -59,6 +64,12 @@ public class IatAbilityClient extends WebSocketListener {
     // 结束时间
     private static Date dateEnd = new Date();
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm:ss.SSS");
+
+    /**
+     * spring初始化时调用，实现bean的初始化
+     */
+    @PostConstruct
+    public  void init() {}
 
     @Override
     public void onOpen(WebSocket webSocket, Response response) {
@@ -147,7 +158,6 @@ public class IatAbilityClient extends WebSocketListener {
     @Override
     public void onMessage(WebSocket webSocket, String text) {
         super.onMessage(webSocket, text);
-        //System.out.println(text);
         IatResponseData resp = json.fromJson(text, IatResponseData.class);
         if (resp != null) {
             if (resp.getCode() != 0) {
@@ -230,19 +240,14 @@ public class IatAbilityClient extends WebSocketListener {
         return httpUrl.toString();
     }
 
-    @PostConstruct
-    public void init(){}
-
-    public void iat(MultipartFile multipartFile) throws Exception {
+    public static void main(String[] args) throws Exception {
         // 构建鉴权url
         String authUrl = getAuthUrl(hostUrl, apiKey, apiSecret);
         OkHttpClient client = new OkHttpClient.Builder().build();
-        //将url中的 schema http://和https://分别替换为ws:// 和 wss://
         String url = authUrl.toString().replace("http://", "ws://").replace("https://", "wss://");
-        //System.out.println(url);
         Request request = new Request.Builder().url(url).build();
-        // System.out.println(client.newCall(request).execute());
+        System.out.println(client.newCall(request).execute());
         WebSocket webSocket = client.newWebSocket(request, new IatAbilityClient());
-        
+
     }
 }
