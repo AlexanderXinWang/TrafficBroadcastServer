@@ -242,7 +242,6 @@ public class IatAbilityClient extends WebSocketListener {
         //System.out.println(url);
         Request request = new Request.Builder().url(url).build();
         // System.out.println(client.newCall(request).execute());
-        //System.out.println("url===>" + url);
         WebSocket webSocket = client.newWebSocket(request, new IatAbilityClient());
         
     }

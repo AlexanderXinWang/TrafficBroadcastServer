@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 
 /**
  * @ClassName IatResult
+ * @Description 听写识别结果
  * @Author xinwang41
  * @Date 2021/3/29 11:33
  **/
@@ -12,10 +13,20 @@ public class IatResult {
     int ed;
     String pgs;
     int[] rg;
+    /**
+     * 返回结果的序号
+     */
     int sn;
+    /**
+     * 听写结果
+     */
     IatWs[] ws;
+    /**
+     * 是否是最后一片结果
+     */
     boolean ls;
     JsonObject vad;
+
     public IatText getText() {
         IatText text = new IatText();
         StringBuilder sb = new StringBuilder();
