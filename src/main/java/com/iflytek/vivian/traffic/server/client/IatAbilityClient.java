@@ -39,6 +39,7 @@ import java.util.*;
  * 语音听写流式WebAPI 服务，方言或小语种试用方法：登陆开放平台https://www.xfyun.cn/后，在控制台--语音听写（流式）--方言/语种处添加
  * 添加后会显示该方言/语种的参数值
  */
+
 public class IatAbilityClient extends WebSocketListener {
     /*@Value("${ability.iat.hostUrl")
     private static String hostUrl; //中英文，http url 不支持解析 ws/wss schema
@@ -52,11 +53,12 @@ public class IatAbilityClient extends WebSocketListener {
     private static final String appId = "60346977"; //在控制台-我的应用获取
     private static final String apiSecret = "6dafbf23712da829593bc7141a202b93"; //在控制台-我的应用-语音听写（流式版）获取
     private static final String apiKey = "61581ff635d25cac9edc3eb101743a7d"; //在控制台-我的应用-语音听写（流式版）获取
-    private static final String file = "src\\main\\resources\\iat\\iat_test.mp3"; // 中文
+    private static final String file = "src\\main\\resources\\iat\\news.pcm"; // 中文
     public static final int StatusFirstFrame = 0;
     public static final int StatusContinueFrame = 1;
     public static final int StatusLastFrame = 2;
     public static final Gson json = new Gson();
+    private static String result = null;
 
     IatDecoder decoder = new IatDecoder();
     // 开始时间
@@ -185,6 +187,8 @@ public class IatAbilityClient extends WebSocketListener {
                     System.out.println("耗时:" + (dateEnd.getTime() - dateBegin.getTime()) + "ms");
                     System.out.println("最终识别结果 ==》" + decoder.toString());
                     System.out.println("本次识别sid ==》" + resp.getSid());
+                    result = decoder.toString();
+                    System.out.println("result=" + result);
                     decoder.discard();
                     webSocket.close(1000, "");
                 } else {
@@ -248,6 +252,17 @@ public class IatAbilityClient extends WebSocketListener {
         Request request = new Request.Builder().url(url).build();
         System.out.println(client.newCall(request).execute());
         WebSocket webSocket = client.newWebSocket(request, new IatAbilityClient());
+    }
 
+    /**
+     * 单条转写测试
+     */
+    public void iat() throws Exception {
+        String authUrl = getAuthUrl(hostUrl, apiKey, apiSecret);
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        String url = authUrl.toString().replace("http://", "ws://").replace("https://", "wss://");
+        Request request = new Request.Builder().url(url).build();
+        System.out.println(client.newCall(request).execute());
+        WebSocket webSocket = client.newWebSocket(request, new IatAbilityClient());
     }
 }

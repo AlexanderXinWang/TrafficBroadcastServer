@@ -1,6 +1,5 @@
 import com.iflytek.vivian.traffic.server.client.AstAbilityClient;
 import com.iflytek.vivian.traffic.server.client.IatAbilityClient;
-import com.iflytek.vivian.traffic.server.utils.AssembleAuthUrlUtil;
 import it.sauronsoftware.jave.AudioAttributes;
 import it.sauronsoftware.jave.EncodingAttributes;
 import org.junit.Test;
@@ -21,7 +20,8 @@ public class IatAbilityClientTest {
     IatAbilityClient iatAbilityClient;
 
     @Test
-    public void IatTest() throws Exception {
-
+    public void iatTest() throws Exception {
+        iatAbilityClient.iat();
     }
+
 }
