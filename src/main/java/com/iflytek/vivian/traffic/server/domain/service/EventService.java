@@ -7,7 +7,6 @@ import com.iflytek.vivian.traffic.server.domain.entity.Event;
 import com.iflytek.vivian.traffic.server.dto.EventDto;
 import com.iflytek.vivian.traffic.server.dto.Result;
 import com.iflytek.vivian.traffic.server.dto.TtsActionParam;
-import com.iflytek.vivian.traffic.server.dto.tts.TtsResponse;
 import com.iflytek.vivian.traffic.server.utils.StringUtil;
 import com.iflytek.vivian.traffic.server.utils.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -80,7 +79,7 @@ public class EventService {
      * 为处理事件的播报
      * @return
      */
-    public List<TtsResponse> eventBroadcast(){
+    /*public List<TtsResponse> eventBroadcast(){
         List<TtsResponse> ttsResponseList = new ArrayList<>();
         // 上报完毕 未处理的事件
         List<Event> eventList = eventDao.findByStatusAndIsPlay(Constants.EventState.EventReport.getValue(), Constants.EventState.EventIsPlay.getValue());
@@ -104,7 +103,7 @@ public class EventService {
             ttsResponseList.add(ttsResponse);
         }
         return ttsResponseList;
-    }
+    }*/
 
     /**
      * 查询未处理事件
