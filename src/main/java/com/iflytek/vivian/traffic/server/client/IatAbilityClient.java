@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.google.gson.JsonObject;
 import okhttp3.*;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
@@ -43,7 +44,7 @@ import java.util.*;
  * 语音听写流式WebAPI 服务，方言或小语种试用方法：登陆开放平台https://www.xfyun.cn/后，在控制台--语音听写（流式）--方言/语种处添加
  * 添加后会显示该方言/语种的参数值
  */
-
+@Service
 @Slf4j
 public class IatAbilityClient {
     @Value("${ability.iat.hostUrl")
@@ -77,33 +78,6 @@ public class IatAbilityClient {
      */
     @PostConstruct
     public  void init() {}
-
-    public static String getAuthUrl(String hostUrl, String apiKey, String apiSecret) throws Exception {
-        URL url = new URL(hostUrl);
-        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
-        format.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String date = format.format(new Date());
-        StringBuilder builder = new StringBuilder("host: ").append(url.getHost()).append("\n").//
-                append("date: ").append(date).append("\n").//
-                append("GET ").append(url.getPath()).append(" HTTP/1.1");
-        //System.out.println(builder);
-        Charset charset = Charset.forName("UTF-8");
-        Mac mac = Mac.getInstance("hmacsha256");
-        SecretKeySpec spec = new SecretKeySpec(apiSecret.getBytes(charset), "hmacsha256");
-        mac.init(spec);
-        byte[] hexDigits = mac.doFinal(builder.toString().getBytes(charset));
-        String sha = Base64.getEncoder().encodeToString(hexDigits);
-
-        //System.out.println(sha);
-        String authorization = String.format("api_key=\"%s\", algorithm=\"%s\", headers=\"%s\", signature=\"%s\"", apiKey, "hmac-sha256", "host date request-line", sha);
-        //System.out.println(authorization);
-        HttpUrl httpUrl = HttpUrl.parse("https://" + url.getHost() + url.getPath()).newBuilder().//
-                addQueryParameter("authorization", Base64.getEncoder().encodeToString(authorization.getBytes(charset))).//
-                addQueryParameter("date", date).//
-                addQueryParameter("host", url.getHost()).//
-                build();
-        return httpUrl.toString();
-    }
 
     /**
      * 单条转写测试
@@ -296,6 +270,33 @@ public class IatAbilityClient {
         }
     }
 
+    public static String getAuthUrl(String hostUrl, String apiKey, String apiSecret) throws Exception {
+        URL url = new URL(hostUrl);
+        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        String date = format.format(new Date());
+        StringBuilder builder = new StringBuilder("host: ").append(url.getHost()).append("\n").//
+                append("date: ").append(date).append("\n").//
+                append("GET ").append(url.getPath()).append(" HTTP/1.1");
+        //System.out.println(builder);
+        Charset charset = Charset.forName("UTF-8");
+        Mac mac = Mac.getInstance("hmacsha256");
+        SecretKeySpec spec = new SecretKeySpec(apiSecret.getBytes(charset), "hmacsha256");
+        mac.init(spec);
+        byte[] hexDigits = mac.doFinal(builder.toString().getBytes(charset));
+        String sha = Base64.getEncoder().encodeToString(hexDigits);
+
+        //System.out.println(sha);
+        String authorization = String.format("api_key=\"%s\", algorithm=\"%s\", headers=\"%s\", signature=\"%s\"", apiKey, "hmac-sha256", "host date request-line", sha);
+        //System.out.println(authorization);
+        HttpUrl httpUrl = HttpUrl.parse("https://" + url.getHost() + url.getPath()).newBuilder().//
+                addQueryParameter("authorization", Base64.getEncoder().encodeToString(authorization.getBytes(charset))).//
+                addQueryParameter("date", date).//
+                addQueryParameter("host", url.getHost()).//
+                build();
+        return httpUrl.toString();
+    }
+
     public void inputStreamToFile(InputStream ins, File file) {
         try {
             OutputStream os = new FileOutputStream(file);
@@ -309,20 +310,5 @@ public class IatAbilityClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public String getSentence(LatticeItem latticeItem) {
-        StringBuilder stringBuilder = new StringBuilder();
-        ResultItem[] resultItems = latticeItem.getWs();
-        if (null != resultItems) {
-            for (ResultItem resultItem : resultItems) {
-                ResultWordItem[] resultWordItems = resultItem.getCw();
-                System.err.print(resultWordItems[0].getW());
-                for (ResultWordItem resultWordItem : resultWordItems) {
-                    stringBuilder.append(resultWordItem.getW());
-                }
-            }
-        }
-        return stringBuilder.toString();
     }
 }
