@@ -21,7 +21,7 @@ public class IatAbilityClientTest {
 
     @Test
     public void iatTest() throws Exception {
-        iatAbilityClient.iat();
+
     }
 
 }
