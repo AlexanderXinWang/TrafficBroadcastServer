@@ -5,7 +5,9 @@ import it.sauronsoftware.jave.EncodingAttributes;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.PrimitiveIterator;
@@ -21,7 +23,9 @@ public class IatAbilityClientTest {
 
     @Test
     public void iatTest() throws Exception {
-
+//        File file = new File("src\\main\\resources\\iat\\news.pcm");
+        String file = "src\\main\\resources\\iat\\news.pcm";
+        iatAbilityClient.iat(new File(file));
     }
 
 }

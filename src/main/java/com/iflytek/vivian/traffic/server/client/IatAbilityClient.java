@@ -18,6 +18,7 @@ import com.iflytek.vivian.traffic.server.dto.iat.IatResponseData;
 import com.iflytek.vivian.traffic.server.dto.iat.IatText;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.WebSocketListener;
+import okio.ByteString;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -30,8 +31,11 @@ import javax.annotation.PostConstruct;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -47,19 +51,19 @@ import java.util.*;
 @Service
 @Slf4j
 public class IatAbilityClient {
-    @Value("${ability.iat.hostUrl")
+    /*@Value("${ability.iat.hostUrl")
     private static String hostUrl; //中英文，http url 不支持解析 ws/wss schema
     @Value("${ability.iat.appId")
     private static String appId;
     @Value("${ability.iat.apiSecret")
     private static String apiSecret;
     @Value("${ability.iat.apiKey")
-    private static String apiKey;
-    /*private static final String hostUrl = "https://iat-api.xfyun.cn/v2/iat"; //中英文，http url 不支持解析 ws/wss schema
+    private static String apiKey;*/
+    private static final String hostUrl = "https://iat-api.xfyun.cn/v2/iat"; //中英文，http url 不支持解析 ws/wss schema
     private static final String appId = "60346977"; //在控制台-我的应用获取
     private static final String apiSecret = "6dafbf23712da829593bc7141a202b93"; //在控制台-我的应用-语音听写（流式版）获取
-    private static final String apiKey = "61581ff635d25cac9edc3eb101743a7d"; //在控制台-我的应用-语音听写（流式版）获取*/
-    private static final String file = "src\\main\\resources\\iat\\news.pcm"; // 中文
+    private static final String apiKey = "61581ff635d25cac9edc3eb101743a7d"; //在控制台-我的应用-语音听写（流式版）获取
+//    private static final String file = "src\\main\\resources\\iat\\news.pcm"; // 中文
     public static final int StatusFirstFrame = 0;
     public static final int StatusContinueFrame = 1;
     public static final int StatusLastFrame = 2;
@@ -82,9 +86,15 @@ public class IatAbilityClient {
     /**
      * 单条转写测试
      */
-    public void iat(File file) throws Exception {
+    public void iat(File file) throws NoSuchAlgorithmException, InvalidKeyException, IOException {
 
-        WebSocketListener webSocketListener = new WebSocketListener() {
+        String authUrl = getAuthUrl(hostUrl, apiKey, apiSecret);
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        String url = authUrl.toString().replace("http://", "ws://").replace("https://", "wss://");
+        Request request = new Request.Builder().url(url).build();
+        System.out.println(client.newCall(request).execute());
+
+        WebSocket webSocket = client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(WebSocket webSocket, Response response) {
                 super.onOpen(webSocket, response);
@@ -211,6 +221,21 @@ public class IatAbilityClient {
             }
 
             @Override
+            public void onMessage(WebSocket webSocket, ByteString bytes) {
+                super.onMessage(webSocket, bytes);
+            }
+
+            @Override
+            public void onClosing(WebSocket webSocket, int code, String reason) {
+                super.onClosing(webSocket, code, reason);
+            }
+
+            @Override
+            public void onClosed(WebSocket webSocket, int code, String reason) {
+                super.onClosed(webSocket, code, reason);
+            }
+
+            @Override
             public void onFailure(WebSocket webSocket, Throwable t, @Nullable Response response) {
                 super.onFailure(webSocket, t, response);
                 try {
@@ -228,14 +253,8 @@ public class IatAbilityClient {
                     e.printStackTrace();
                 }
             }
-        };
+        });
 
-        String authUrl = getAuthUrl(hostUrl, apiKey, apiSecret);
-        OkHttpClient client = new OkHttpClient.Builder().build();
-        String url = authUrl.toString().replace("http://", "ws://").replace("https://", "wss://");
-        Request request = new Request.Builder().url(url).build();
-        System.out.println(client.newCall(request).execute());
-        WebSocket webSocket = client.newWebSocket(request, webSocketListener);
     }
 
     /**
@@ -270,7 +289,7 @@ public class IatAbilityClient {
         }
     }
 
-    public static String getAuthUrl(String hostUrl, String apiKey, String apiSecret) throws Exception {
+    public static String getAuthUrl(String hostUrl, String apiKey, String apiSecret) throws NoSuchAlgorithmException, MalformedURLException, InvalidKeyException {
         URL url = new URL(hostUrl);
         SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
         format.setTimeZone(TimeZone.getTimeZone("GMT"));
