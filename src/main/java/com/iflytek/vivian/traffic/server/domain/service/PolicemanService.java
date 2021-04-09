@@ -1,19 +1,10 @@
 package com.iflytek.vivian.traffic.server.domain.service;
 
-import com.alibaba.fastjson.JSON;
-import com.iflytek.vivian.traffic.server.client.FaceAbilityClient;
-import com.iflytek.vivian.traffic.server.constants.Constants;
 import com.iflytek.vivian.traffic.server.constants.ErrorCode;
 import com.iflytek.vivian.traffic.server.domain.dao.IPolicemanDao;
 import com.iflytek.vivian.traffic.server.domain.entity.User;
 import com.iflytek.vivian.traffic.server.dto.Result;
 import com.iflytek.vivian.traffic.server.dto.UserDto;
-import com.iflytek.vivian.traffic.server.dto.face.FdbImage;
-import com.iflytek.vivian.traffic.server.dto.face.FdbImageExtraProp;
-import com.iflytek.vivian.traffic.server.dto.face.FdbResultResponse;
-import com.iflytek.vivian.traffic.server.dto.face.ImageSearchScore;
-import com.iflytek.vivian.traffic.server.exceptions.FdbRequestException;
-import com.iflytek.vivian.traffic.server.utils.FdbResponseUtil;
 import com.iflytek.vivian.traffic.server.utils.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,9 +25,6 @@ import java.util.List;
 public class PolicemanService {
     @Autowired
     private IPolicemanDao policemanDao;
-
-    @Autowired
-    private FaceAbilityClient faceAbilityClient;
 
     @Value("${ability.face.defaultSearchScore:0.9}")
     private double defaultSearchScore;
@@ -79,7 +67,7 @@ public class PolicemanService {
                 }
             }
 
-            //设置图片的扩展属性,将生成用户的UUID作为人脸图片的扩展参数传入人脸库
+            /*//设置图片的扩展属性,将生成用户的UUID作为人脸图片的扩展参数传入人脸库
             FdbImageExtraProp extraProp=new FdbImageExtraProp();
             extraProp.setUserId(userDto.getId());
 
@@ -91,7 +79,7 @@ public class PolicemanService {
                 fdbImage = rst.getSuccess().get(0);
             } else {
                 throw new FdbRequestException("添加人脸失败," + rst.getErrorMessage());
-            }
+            }*/
 
             user.setName(userDto.getName());
             user.setNameEN(userDto.getNameEN());
@@ -102,7 +90,7 @@ public class PolicemanService {
             user.setCreateTime(new Date());
             user.setAge(userDto.getAge());
             user.setDepartment(userDto.getDepartment());
-            user.setImageId(fdbImage.getImageId());
+//            user.setImageId(fdbImage.getImageId());
             if (StringUtils.isEmpty(userDto.getRole())) {
                 user.setRole("user");
             } else {
@@ -121,7 +109,7 @@ public class PolicemanService {
      * @param imageDatas
      * @return
      */
-    public Result<User> searchForImage(byte[] imageDatas) {
+    /*public Result<User> searchForImage(byte[] imageDatas) {
         FdbResultResponse<List<ImageSearchScore>> rst = faceAbilityClient.searchImage(Constants.FACE_DB_NAME, imageDatas, defaultSearchTopN, defaultSearchScore);
         if (!FdbResponseUtil.isSuccess(rst)) {
             return Result.fail("请求人脸检测接口失败");
@@ -132,7 +120,7 @@ public class PolicemanService {
         }
         User user = policemanDao.findUserByImageId(searchScore.getImageId());
         return Result.success(user);
-    }
+    }*/
 
     /**
      *  移除警员信息
@@ -148,7 +136,7 @@ public class PolicemanService {
             if (null == user || !userDto.getId().equals(user.getId())){
                 return Result.fail("为查找到指定警员");
             }
-            faceAbilityClient.removeImage(Constants.FACE_DB_NAME, user.getImageId());
+//            faceAbilityClient.removeImage(Constants.FACE_DB_NAME, user.getImageId());
             policemanDao.delete(user.getId());
             return Result.success(true);
         }catch (Exception e){
@@ -198,12 +186,12 @@ public class PolicemanService {
         }
     }
 
-    public Result removeAllImage() {
+    /*public Result removeAllImage() {
         FdbResultResponse rst = faceAbilityClient.removeAllImage(Constants.FACE_DB_NAME);
         if (FdbResponseUtil.isSuccess(rst)) {
             return Result.success("true");
         } else {
             return Result.fail("删除失败");
         }
-    }
+    }*/
 }
