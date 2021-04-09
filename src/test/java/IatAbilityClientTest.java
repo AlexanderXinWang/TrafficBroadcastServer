@@ -1,13 +1,9 @@
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.iflytek.vivian.traffic.server.client.AstAbilityClient;
 import com.iflytek.vivian.traffic.server.client.IatAbilityClient;
-import com.iflytek.vivian.traffic.server.dto.Result;
 import com.iflytek.vivian.traffic.server.dto.iat.IatDecoder;
 import com.iflytek.vivian.traffic.server.dto.iat.IatResponseData;
 import com.iflytek.vivian.traffic.server.dto.iat.IatText;
-import it.sauronsoftware.jave.AudioAttributes;
-import it.sauronsoftware.jave.EncodingAttributes;
 import okhttp3.*;
 import okio.ByteString;
 import org.jetbrains.annotations.Nullable;

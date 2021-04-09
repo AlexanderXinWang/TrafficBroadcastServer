@@ -1,6 +1,7 @@
 package com.iflytek.vivian.traffic.server.dto;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 /**
  * @ClassName EventDto

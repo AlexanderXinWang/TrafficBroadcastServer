@@ -1,7 +1,5 @@
 package com.iflytek.vivian.traffic.server.controller;
 
-import com.iflytek.vivian.traffic.server.client.AstAbilityClient;
-import com.iflytek.vivian.traffic.server.client.IatAbilityClient;
 import com.iflytek.vivian.traffic.server.domain.service.TtsService;
 import com.iflytek.vivian.traffic.server.dto.Result;
 import com.iflytek.vivian.traffic.server.dto.TtsActionParam;
@@ -19,14 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
  **/
 public class PublicController {
     @Autowired
-    private AstAbilityClient astAbilityClient;
-    @Autowired
     private TtsService ttsService;
 
-    @PostMapping("/ast")
+    /*@PostMapping("/ast")
     public Result<String> ast(@RequestParam(value = "audioFile", required = true)MultipartFile audioFile) {
         return astAbilityClient.ast(audioFile);
-    }
+    }*/
 
     /**
      * 获取MP3下载地址

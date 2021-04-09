@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @Author xinwang41
  * @Date 2021/1/4 10:44
  **/
-@Component
+
 public interface IPolicemanDao extends JpaRepository<User, String> {
     /**
      * 根据ImageId查找Policeman

@@ -86,9 +86,9 @@ public class PolicemanController {
         return policemanService.updatePoliceman(userDto);
     }
 
-    @PostMapping("/removeAllImage")
+    /*@PostMapping("/removeAllImage")
     @ResponseBody
     public Result removeAllImage(){
         return policemanService.removeAllImage();
-    }
+    }*/
 }

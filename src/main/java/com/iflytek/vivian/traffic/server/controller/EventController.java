@@ -1,7 +1,6 @@
 package com.iflytek.vivian.traffic.server.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.iflytek.vivian.traffic.server.client.AstAbilityClient;
 import com.iflytek.vivian.traffic.server.client.IatAbilityClient;
 import com.iflytek.vivian.traffic.server.domain.entity.Event;
 import com.iflytek.vivian.traffic.server.domain.service.EventService;
@@ -27,8 +26,6 @@ import java.util.List;
 @RequestMapping("/event")
 @Slf4j
 public class EventController {
-    @Autowired
-    private AstAbilityClient astAbilityClient;
 
     @Autowired
     private IatAbilityClient iatAbilityClient;
@@ -41,10 +38,10 @@ public class EventController {
 
     /**
      * 数据单句音频 输出解析文本
-     * @param file
+     * @param
      * @return
-     */
-    @PostMapping("/ast")
+*/
+    /*@PostMapping("/ast")
     @ResponseBody
     public Result<Event> astEvent(@RequestPart("file") MultipartFile file) {
         try {
@@ -58,6 +55,12 @@ public class EventController {
             log.info("语音识别失败");
             return Result.fail("识别失败");
         }
+    }*/
+
+    @GetMapping("/test")
+    @ResponseBody
+    public Result<String> test() {
+        return Result.success("成功");
     }
 
     /**
