@@ -2,6 +2,7 @@ package com.iflytek.vivian.traffic.server.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.iflytek.vivian.traffic.server.client.AstAbilityClient;
+import com.iflytek.vivian.traffic.server.client.IatAbilityClient;
 import com.iflytek.vivian.traffic.server.domain.entity.Event;
 import com.iflytek.vivian.traffic.server.domain.service.EventService;
 import com.iflytek.vivian.traffic.server.domain.service.NlpService;
@@ -30,6 +31,9 @@ public class EventController {
     private AstAbilityClient astAbilityClient;
 
     @Autowired
+    private IatAbilityClient iatAbilityClient;
+
+    @Autowired
     private NlpService nlpService;
 
     @Autowired
@@ -51,6 +55,28 @@ public class EventController {
             log.info("nlp event = {}", JSON.toJSONString(event));
             return Result.success(event);
         } catch (Exception e){
+            log.info("语音识别失败");
+            return Result.fail("识别失败");
+        }
+    }
+
+    /**
+     * 警情上报
+     * 数据单句音频，输出解析文本
+     * @param file
+     * @return
+     */
+    @PostMapping("/iat")
+    @ResponseBody
+    public Result<Event> iatEvent(@RequestPart("file") MultipartFile file) {
+        try {
+            Result<String> iatResult = iatAbilityClient.iat(file);
+            Event event = nlpService.getEventCaseSimple(iatResult.getData());
+            event.setIatResult(iatResult.getData());
+
+            log.info("nlp event = {}", JSON.toJSONString(event));
+            return Result.success(event);
+        } catch (Exception e) {
             log.info("语音识别失败");
             return Result.fail("识别失败");
         }

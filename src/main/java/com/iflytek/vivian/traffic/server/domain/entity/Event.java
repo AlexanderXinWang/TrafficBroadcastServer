@@ -62,6 +62,9 @@ public class Event {
 
     @Column(name="ast_result")
     private String astResult;
+
+    @Column(name="iat_result")
+    private String iatResult;
     /**
      * 事件发生时间
      */

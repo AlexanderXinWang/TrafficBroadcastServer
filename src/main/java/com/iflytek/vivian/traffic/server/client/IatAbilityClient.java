@@ -86,13 +86,16 @@ public class IatAbilityClient {
     /**
      * 单条转写测试
      */
-    public void iat(File file) throws NoSuchAlgorithmException, InvalidKeyException, IOException {
-
+    public void iat(File file) {
         String authUrl = getAuthUrl(hostUrl, apiKey, apiSecret);
         OkHttpClient client = new OkHttpClient.Builder().build();
         String url = authUrl.toString().replace("http://", "ws://").replace("https://", "wss://");
         Request request = new Request.Builder().url(url).build();
-        System.out.println(client.newCall(request).execute());
+        try {
+            System.out.println(client.newCall(request).execute());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         WebSocket webSocket = client.newWebSocket(request, new WebSocketListener() {
             @Override
@@ -281,6 +284,7 @@ public class IatAbilityClient {
             }
 
             iat(toFile);
+            System.out.println(result.toString());
 
             return Result.success(result.toString());
         } catch (Exception e) {
@@ -289,8 +293,13 @@ public class IatAbilityClient {
         }
     }
 
-    public static String getAuthUrl(String hostUrl, String apiKey, String apiSecret) throws NoSuchAlgorithmException, MalformedURLException, InvalidKeyException {
-        URL url = new URL(hostUrl);
+    public static String getAuthUrl(String hostUrl, String apiKey, String apiSecret) {
+        URL url = null;
+        try {
+            url = new URL(hostUrl);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
         format.setTimeZone(TimeZone.getTimeZone("GMT"));
         String date = format.format(new Date());
@@ -299,9 +308,18 @@ public class IatAbilityClient {
                 append("GET ").append(url.getPath()).append(" HTTP/1.1");
         //System.out.println(builder);
         Charset charset = Charset.forName("UTF-8");
-        Mac mac = Mac.getInstance("hmacsha256");
+        Mac mac = null;
+        try {
+            mac = Mac.getInstance("hmacsha256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         SecretKeySpec spec = new SecretKeySpec(apiSecret.getBytes(charset), "hmacsha256");
-        mac.init(spec);
+        try {
+            mac.init(spec);
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        }
         byte[] hexDigits = mac.doFinal(builder.toString().getBytes(charset));
         String sha = Base64.getEncoder().encodeToString(hexDigits);
 

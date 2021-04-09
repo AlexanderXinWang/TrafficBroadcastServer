@@ -41,18 +41,18 @@ import java.util.TimeZone;
 @Service
 @Slf4j
 public class TtsAbilityClient {
-    @Value("${ability.tts.hostUrl")
+    /*@Value("${ability.tts.hostUrl")
     private static String hostUrl; //中英文，http url 不支持解析 ws/wss schema
     @Value("${ability.tts.appId")
     private static String appId;
     @Value("${ability.tts.apiSecret")
     private static String apiSecret;
     @Value("${ability.tts.apiKey")
-    private static String apiKey;
-    /*private static final String hostUrl = "https://tts-api.xfyun.cn/v2/tts"; //http url 不支持解析 ws/wss schema
-    private static final String appid = "60346977";//到控制台-语音合成页面获取
+    private static String apiKey;*/
+    private static final String hostUrl = "https://tts-api.xfyun.cn/v2/tts"; //http url 不支持解析 ws/wss schema
+    private static final String appId = "60346977";//到控制台-语音合成页面获取
     private static final String apiSecret = "6dafbf23712da829593bc7141a202b93";//到控制台-语音合成页面获取
-    private static final String apiKey = "61581ff635d25cac9edc3eb101743a7d";//到控制台-语音合成页面获取*/
+    private static final String apiKey = "61581ff635d25cac9edc3eb101743a7d";//到控制台-语音合成页面获取
     private static final String text = "讯飞开放平台";
     public static final Gson json = new Gson();
 
@@ -66,7 +66,7 @@ public class TtsAbilityClient {
         // 存放音频的文件
         SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm:ss.SSS");
         String date = sdf.format(new Date());
-        File f = new File("resource/tts/" + date + ".pcm");
+        File f = new File("src/main/resources/tts/" + date + ".pcm");
         if (!f.exists()) {
             f.createNewFile();
         }
