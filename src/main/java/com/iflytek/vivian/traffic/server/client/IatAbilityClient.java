@@ -285,6 +285,7 @@ public class IatAbilityClient {
 
             iat(toFile);
 
+            // TODO 线程等待待处理（等待iat执行完毕）
             Thread.sleep(60*1000);
 
             System.out.println(result.toString());
