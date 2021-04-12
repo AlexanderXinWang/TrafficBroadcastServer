@@ -104,7 +104,7 @@ public class IatAbilityClient {
                 new Thread(()->{
                     //连接成功，开始发送数据
                     int frameSize = 1280; //每一帧音频的大小,建议每 40ms 发送 122B
-                    int intervel = 40;
+                    int interval = 40;
                     int status = 0;  // 音频的状态
                     try (FileInputStream fs = new FileInputStream(file)) {
                         byte[] buffer = new byte[frameSize];
@@ -169,7 +169,7 @@ public class IatAbilityClient {
                                     System.out.println("sendlast");
                                     break end;
                             }
-                            Thread.sleep(intervel); //模拟音频采样延时
+                            Thread.sleep(interval); //模拟音频采样延时
                         }
                         System.out.println("all data is send");
                     } catch (FileNotFoundException e) {
@@ -284,6 +284,9 @@ public class IatAbilityClient {
             }
 
             iat(toFile);
+
+            Thread.sleep(60*1000);
+
             System.out.println(result.toString());
 
             return Result.success(result.toString());

@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.PrivateKey;
 import java.util.List;
+import java.util.PrimitiveIterator;
 
 /**
  * @ClassName EventController
@@ -35,6 +37,10 @@ public class EventController {
 
     @Autowired
     private EventService eventService;
+
+    private Result<String> iatResult = null;
+
+    private Event event = new Event();
 
     /**
      * 数据单句音频 输出解析文本
@@ -76,14 +82,25 @@ public class EventController {
             Result<String> iatResult = iatAbilityClient.iat(file);
             Event event = nlpService.getEventCaseSimple(iatResult.getData());
             event.setIatResult(iatResult.getData());
-
             log.info("nlp event = {}", JSON.toJSONString(event));
+
             return Result.success(event);
         } catch (Exception e) {
             log.info("语音识别失败");
             return Result.fail("识别失败");
         }
     }
+
+    /*try {
+        Result<String> iatResult = iatAbilityClient.iat(file);
+        Event event = nlpService.getEventCaseSimple(iatResult.getData());
+        event.setIatResult(iatResult.getData());
+        log.info("nlp event = {}", JSON.toJSONString(event));
+        return Result.success(event);
+    }catch (Exception e){
+        log.info("语音识别失败");
+        return Result.fail("识别失败");
+    }*/
 
     /**
      * 保存事件

@@ -60,9 +60,6 @@ public class Event {
     @Column(name="event_result")
     private String eventResult;
 
-    @Column(name="ast_result")
-    private String astResult;
-
     @Column(name="iat_result")
     private String iatResult;
     /**
