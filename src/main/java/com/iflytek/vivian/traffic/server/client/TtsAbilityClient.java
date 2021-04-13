@@ -71,7 +71,7 @@ public class TtsAbilityClient {
         String url = authUrl.toString().replace("http://", "ws://").replace("https://", "wss://");
         Request request = new Request.Builder().url(url).build();
         // 存放音频的文件
-        SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm:ss.SSS");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH-mm-ss.SSS");
         String date = sdf.format(new Date());
         File f = new File("src/main/resources/tts/" + date + ".pcm");
         if (!f.exists()) {
@@ -176,43 +176,6 @@ public class TtsAbilityClient {
         });
     }
 
-    public static String getAuthUrl(String hostUrl, String apiKey, String apiSecret) {
-        URL url = null;
-        try {
-            url = new URL(hostUrl);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
-        format.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String date = format.format(new Date());
-        StringBuilder builder = new StringBuilder("host: ").append(url.getHost()).append("\n").//
-                append("date: ").append(date).append("\n").//
-                append("GET ").append(url.getPath()).append(" HTTP/1.1");
-        Charset charset = Charset.forName("UTF-8");
-        Mac mac = null;
-        try {
-            mac = Mac.getInstance("hmacsha256");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        SecretKeySpec spec = new SecretKeySpec(apiSecret.getBytes(charset), "hmacsha256");
-        try {
-            mac.init(spec);
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        }
-        byte[] hexDigits = mac.doFinal(builder.toString().getBytes(charset));
-        String sha = Base64.getEncoder().encodeToString(hexDigits);
-        String authorization = String.format("hmac username=\"%s\", algorithm=\"%s\", headers=\"%s\", signature=\"%s\"", apiKey, "hmac-sha256", "host date request-line", sha);
-        HttpUrl httpUrl = HttpUrl.parse("https://" + url.getHost() + url.getPath()).newBuilder().//
-                addQueryParameter("authorization", Base64.getEncoder().encodeToString(authorization.getBytes(charset))).//
-                addQueryParameter("date", date).//
-                addQueryParameter("host", url.getHost()).//
-                build();
-        return httpUrl.toString();
-    }
-
     public Result<File> tts(String text, String fileName) {
         try {
             // 构建鉴权url
@@ -222,9 +185,7 @@ public class TtsAbilityClient {
             String url = authUrl.toString().replace("http://", "ws://").replace("https://", "wss://");
             Request request = new Request.Builder().url(url).build();
             // 存放音频的文件
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm:ss.SSS");
-//        String date = sdf.format(new Date());
-            File file = new File("resource/tts/" + fileName + ".pcm");
+            File file = new File("src/main/resources/tts/" + fileName + ".pcm");
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -328,6 +289,9 @@ public class TtsAbilityClient {
                 }
             });
 
+            //TODO 线程等待
+            Thread.sleep(1000*10);
+
             return Result.success(file);
         } catch (Exception e) {
             log.error("tts语音合成失败", e.getMessage());
@@ -335,4 +299,40 @@ public class TtsAbilityClient {
         }
     }
 
+    public static String getAuthUrl(String hostUrl, String apiKey, String apiSecret) {
+        URL url = null;
+        try {
+            url = new URL(hostUrl);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        String date = format.format(new Date());
+        StringBuilder builder = new StringBuilder("host: ").append(url.getHost()).append("\n").//
+                append("date: ").append(date).append("\n").//
+                append("GET ").append(url.getPath()).append(" HTTP/1.1");
+        Charset charset = Charset.forName("UTF-8");
+        Mac mac = null;
+        try {
+            mac = Mac.getInstance("hmacsha256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        SecretKeySpec spec = new SecretKeySpec(apiSecret.getBytes(charset), "hmacsha256");
+        try {
+            mac.init(spec);
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        }
+        byte[] hexDigits = mac.doFinal(builder.toString().getBytes(charset));
+        String sha = Base64.getEncoder().encodeToString(hexDigits);
+        String authorization = String.format("hmac username=\"%s\", algorithm=\"%s\", headers=\"%s\", signature=\"%s\"", apiKey, "hmac-sha256", "host date request-line", sha);
+        HttpUrl httpUrl = HttpUrl.parse("https://" + url.getHost() + url.getPath()).newBuilder().//
+                addQueryParameter("authorization", Base64.getEncoder().encodeToString(authorization.getBytes(charset))).//
+                addQueryParameter("date", date).//
+                addQueryParameter("host", url.getHost()).//
+                build();
+        return httpUrl.toString();
+    }
 }

@@ -3,16 +3,19 @@ package com.iflytek.vivian.traffic.server.controller;
 import com.alibaba.fastjson.JSON;
 import com.iflytek.vivian.traffic.server.client.IatAbilityClient;
 import com.iflytek.vivian.traffic.server.client.TtsAbilityClient;
+import com.iflytek.vivian.traffic.server.constants.ErrorCode;
 import com.iflytek.vivian.traffic.server.domain.entity.Event;
 import com.iflytek.vivian.traffic.server.domain.service.EventService;
 import com.iflytek.vivian.traffic.server.domain.service.NlpService;
 import com.iflytek.vivian.traffic.server.dto.EventDto;
 import com.iflytek.vivian.traffic.server.dto.Result;
+import com.iflytek.vivian.traffic.server.dto.TtsDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.security.PrivateKey;
 import java.util.List;
 import java.util.PrimitiveIterator;
@@ -83,24 +86,12 @@ public class EventController {
             Event event = nlpService.getEventCaseSimple(iatResult.getData());
             event.setIatResult(iatResult.getData());
             log.info("nlp event = {}", JSON.toJSONString(event));
-
             return Result.success(event);
         } catch (Exception e) {
             log.info("语音识别失败");
             return Result.fail("识别失败");
         }
     }
-
-    /*try {
-        Result<String> iatResult = iatAbilityClient.iat(file);
-        Event event = nlpService.getEventCaseSimple(iatResult.getData());
-        event.setIatResult(iatResult.getData());
-        log.info("nlp event = {}", JSON.toJSONString(event));
-        return Result.success(event);
-    }catch (Exception e){
-        log.info("语音识别失败");
-        return Result.fail("识别失败");
-    }*/
 
     /**
      * 保存事件
@@ -114,22 +105,33 @@ public class EventController {
     }
 
     /**
-     * 查询未处理事件
+     * 播放警情事件（开/关）
+     * @param ttsDto
      * @return
      */
-    @PostMapping("listEvent")
+    @PostMapping("playEvent")
     @ResponseBody
-    public Result<List<Event>> listEvent(@RequestParam(name = "isPlay")String isPlay){
-        return eventService.listEvent(isPlay);
+    public Result<String> playEvent(TtsDto ttsDto) {
+        if (ttsDto.isPlay()) {
+            ttsDto.setPlay(false);
+            eventService.closeEventNotify();
+        } else {
+            ttsDto.setPlay(true);
+            eventService.openEventNotify();
+        }
+        return null;
     }
 
-    /**
-     * 查询未处理事件
-     * @return
-     */
-    @PostMapping("setEventStatus")
+    @PostMapping("/tts")
     @ResponseBody
-    public Result<List<Event>> setEventStatus(EventDto eventDto){
-        return eventService.setEventStatus(eventDto);
+    public Result<File> tts() {
+        try {
+            String text = "今天天气真好";
+            String fileName = "ttsTest";
+            return ttsAbilityClient.tts(text, fileName);
+        } catch (Exception e) {
+            return Result.fail(ErrorCode.FAIL);
+        }
     }
+
 }

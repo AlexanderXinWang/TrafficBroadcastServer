@@ -104,6 +104,7 @@ public class Event {
     @Column(name = "event_desc")
     private String desc;
 
-    @Column(name = "mp3")
+    @Column(name = "pcm")
     private byte[] mp3;
+
 }
