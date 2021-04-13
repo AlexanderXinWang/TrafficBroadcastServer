@@ -2,6 +2,7 @@ package com.iflytek.vivian.traffic.server.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.iflytek.vivian.traffic.server.client.IatAbilityClient;
+import com.iflytek.vivian.traffic.server.client.TtsAbilityClient;
 import com.iflytek.vivian.traffic.server.domain.entity.Event;
 import com.iflytek.vivian.traffic.server.domain.service.EventService;
 import com.iflytek.vivian.traffic.server.domain.service.NlpService;
@@ -38,9 +39,8 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    private Result<String> iatResult = null;
-
-    private Event event = new Event();
+    @Autowired
+    private TtsAbilityClient ttsAbilityClient;
 
     /**
      * 数据单句音频 输出解析文本
@@ -107,6 +107,8 @@ public class EventController {
      * @param eventDto
      * @return
      */
+    @PostMapping("/saveEvent")
+    @ResponseBody
     public Result<Event> saveEventDeal(@RequestBody EventDto eventDto) {
         return eventService.saveEvent(eventDto);
     }
