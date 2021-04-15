@@ -26,12 +26,9 @@ import java.util.*;
 @Component
 @Slf4j
 public class EventService {
+
     @Autowired
     private IEventDao eventDao;
-
-    @Autowired
-    private TtsAbilityClient ttsAbilityClient;
-
 
     /**
      * 事件上报入库

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="traffic@1.15.78.72" uuid="05b231b4-747e-42da-a248-35b341230ff0">
+    <data-source source="LOCAL" name="traffic@1.15.78.72" uuid="8a6f1317-54a3-4d9a-b972-6e11fc20fd0d">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://1.15.78.72:3306/traffic</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
