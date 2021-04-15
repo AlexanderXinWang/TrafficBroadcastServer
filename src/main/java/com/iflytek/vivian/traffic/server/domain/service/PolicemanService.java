@@ -10,8 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -97,6 +100,7 @@ public class PolicemanService {
      */
     public Result<Boolean> deletePoliceman(List<UserDto> userDtoList){
         try {
+            List<User> userList = new ArrayList<>();
             for (UserDto userDto : userDtoList) {
                 if (StringUtils.isEmpty(userDto.getId())){
                     return Result.fail("警员信息错误");
@@ -105,15 +109,14 @@ public class PolicemanService {
                 if (null == user || !userDto.getId().equals(user.getId())){
                     return Result.fail("未查找到指定警员");
                 }
-                policemanDao.delete(user.getId());
+                userList.add(user);
             }
+            policemanDao.deleteInBatch(userList);
             return Result.success(true);
         }catch (Exception e){
             return Result.fail("删除警员错误:" + e.getMessage());
         }
     }
-
-
 
     /**
      * 更新警员信息
@@ -122,7 +125,6 @@ public class PolicemanService {
      */
     public Result<User> updatePoliceman(UserDto userDto){
         try {
-
             if (StringUtils.isEmpty(userDto.getId())){
                 return Result.fail("警员信息错误");
             }
@@ -149,11 +151,10 @@ public class PolicemanService {
     }
 
     /**
-     *  查询警员信息
-     * @param userDto
+     *  查询所有警员信息
      * @return
      */
-    public Result<List<User>> listPoliceman(UserDto userDto){
+    public Result<List<User>> listPoliceman(){
         return Result.success(policemanDao.findAll());
     }
 

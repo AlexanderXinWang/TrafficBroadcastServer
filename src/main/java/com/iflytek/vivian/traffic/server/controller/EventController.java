@@ -5,16 +5,19 @@ import com.iflytek.vivian.traffic.server.client.IatAbilityClient;
 import com.iflytek.vivian.traffic.server.client.TtsAbilityClient;
 import com.iflytek.vivian.traffic.server.constants.ErrorCode;
 import com.iflytek.vivian.traffic.server.domain.entity.Event;
+import com.iflytek.vivian.traffic.server.domain.entity.User;
 import com.iflytek.vivian.traffic.server.domain.service.EventService;
 import com.iflytek.vivian.traffic.server.domain.service.NlpService;
 import com.iflytek.vivian.traffic.server.dto.EventDto;
 import com.iflytek.vivian.traffic.server.dto.Result;
 import com.iflytek.vivian.traffic.server.dto.TtsDto;
+import com.iflytek.vivian.traffic.server.dto.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.image.RescaleOp;
 import java.io.File;
 import java.security.PrivateKey;
 import java.util.List;
@@ -46,33 +49,6 @@ public class EventController {
     private TtsAbilityClient ttsAbilityClient;
 
     /**
-     * 数据单句音频 输出解析文本
-     * @param
-     * @return
-*/
-    /*@PostMapping("/ast")
-    @ResponseBody
-    public Result<Event> astEvent(@RequestPart("file") MultipartFile file) {
-        try {
-            Result<String> astResult = astAbilityClient.ast(file);
-            Event event = nlpService.getEventCaseSimple(astResult.getData());
-            event.setAstResult(astResult.getData());
-
-            log.info("nlp event = {}", JSON.toJSONString(event));
-            return Result.success(event);
-        } catch (Exception e){
-            log.info("语音识别失败");
-            return Result.fail("识别失败");
-        }
-    }*/
-
-    @GetMapping("/test")
-    @ResponseBody
-    public Result<String> test() {
-        return Result.success("成功");
-    }
-
-    /**
      * 警情上报
      * 数据单句音频，输出解析文本
      * @param file
@@ -100,8 +76,51 @@ public class EventController {
      */
     @PostMapping("/saveEvent")
     @ResponseBody
-    public Result<Event> saveEventDeal(@RequestBody EventDto eventDto) {
+    public Result<Event> saveEvent(@RequestBody EventDto eventDto) {
         return eventService.saveEvent(eventDto);
+    }
+
+    /**
+     * 批量删除事件
+     * @param eventDtoList
+     * @return
+     */
+    @PostMapping("/delete")
+    @ResponseBody
+    public Result<Boolean> deleteEvent(List<EventDto> eventDtoList) {
+        return eventService.deleteEvent(eventDtoList);
+    }
+
+    /**
+     * 更新警情事件
+     * @param eventDto
+     * @return
+     */
+    @PostMapping("/update")
+    @ResponseBody
+    public Result<Event> updateEvent(EventDto eventDto) {
+        return eventService.updateEvent(eventDto);
+    }
+
+    /**
+     * 查询所有警情事件
+     * @return
+     */
+    @PostMapping("/list")
+    @ResponseBody
+    public Result<List<Event>> listEvent() {
+        return eventService.listEvent();
+    }
+
+    /**
+     * 查询单个警情事件的详情信息
+     * @param userDto
+     * @return
+     */
+    @PostMapping("/select")
+    @ResponseBody
+    public Result<Event> selectEvent(UserDto userDto) {
+        return eventService.selectEvent(userDto);
     }
 
     /**

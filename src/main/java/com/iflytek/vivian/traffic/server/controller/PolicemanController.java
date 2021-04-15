@@ -75,14 +75,13 @@ public class PolicemanController {
     }
 
     /**
-     * 查询警员信息
-     * @param userDto
+     * 查询所有警员信息
      * @return
      */
     @PostMapping("/list")
     @ResponseBody
-    public Result<List<User>> listPoliceman(UserDto userDto){
-        return policemanService.listPoliceman(userDto);
+    public Result<List<User>> listPoliceman(){
+        return policemanService.listPoliceman();
     }
 
     /**
