@@ -17,6 +17,10 @@ public class UserDto {
      */
     private String id;
     /**
+     * 密码
+     */
+    private String password;
+    /**
      * 名字
      */
     private String name;

@@ -26,6 +26,12 @@ public class User {
     private String id;
 
     /**
+     * 密码
+     */
+    @Column
+    private String password;
+
+    /**
      * 名字
      */
     @Column

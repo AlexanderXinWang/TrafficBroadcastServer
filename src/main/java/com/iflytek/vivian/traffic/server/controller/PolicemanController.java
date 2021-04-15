@@ -33,7 +33,7 @@ public class PolicemanController {
      */
     @PostMapping("/login")
     @ResponseBody
-    public Result<User> login(UserDto userDto){
+    public Result<User> userLogin(UserDto userDto){
         try {
             return policemanService.login(userDto);
         } catch (BaseException e){
@@ -48,20 +48,30 @@ public class PolicemanController {
      */
     @PostMapping("/save")
     @ResponseBody
-    public Result<User> savePoliceman(UserDto userDto,
-                                      @RequestPart("file")MultipartFile file){
-        return policemanService.savePoliceman(userDto, file);
+    public Result<User> savePoliceman(UserDto userDto){
+        return policemanService.savePoliceman(userDto);
     }
 
     /**
-     * 警员移除
+     * 批量警员移除
+     * @param userDtoList
+     * @return
+     */
+    @PostMapping("/delete")
+    @ResponseBody
+    public Result<Boolean> deletePoliceman(List<UserDto> userDtoList){
+        return policemanService.deletePoliceman(userDtoList);
+    }
+
+    /**
+     * 更新警员信息
      * @param userDto
      * @return
      */
-    @PostMapping("/remove")
+    @PostMapping("/update")
     @ResponseBody
-    public Result<Boolean> removePoliceman(UserDto userDto){
-        return policemanService.removePoliceman(userDto);
+    public Result<User> updatePoliceman(UserDto userDto){
+        return policemanService.updatePoliceman(userDto);
     }
 
     /**
@@ -76,19 +86,15 @@ public class PolicemanController {
     }
 
     /**
-     * 更新警员信息
+     * 查询单个警员详情信息
      * @param userDto
      * @return
      */
-    @PostMapping("/update")
+    @PostMapping("/select")
     @ResponseBody
-    public Result<User> updatePoliceman(UserDto userDto){
-        return policemanService.updatePoliceman(userDto);
+    public Result<User> selectPoliceman(UserDto userDto) {
+        return policemanService.selectPoliceman(userDto);
     }
 
-    /*@PostMapping("/removeAllImage")
-    @ResponseBody
-    public Result removeAllImage(){
-        return policemanService.removeAllImage();
-    }*/
+
 }
