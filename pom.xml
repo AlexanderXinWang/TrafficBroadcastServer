@@ -168,16 +168,17 @@
 
     </dependencies>
 
-    <!--<build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <encoding>UTF-8</encoding>
-                    &lt;!&ndash;lib放的位置&ndash;&gt;
+                    <!--lib放的位置-->
                     <compilerArguments>
                         <extdirs>${project.basedir}/src/main/resources/lib</extdirs>
                     </compilerArguments>
@@ -186,6 +187,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.3.4.RELEASE</version>
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
                 </configuration>
@@ -194,9 +196,7 @@
 
 
         <resources>
-
             <resource>
-
                 <directory>lib</directory>
 
                 <targetPath>BOOT-INF/lib/</targetPath>
@@ -219,6 +219,6 @@
 
         </resources>
 
-    </build>-->
+    </build>
 
 </project>

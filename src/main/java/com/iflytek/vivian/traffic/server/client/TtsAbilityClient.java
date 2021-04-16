@@ -176,6 +176,12 @@ public class TtsAbilityClient {
         });
     }
 
+    /**
+     * 语音合成能力调用
+     * @param text
+     * @param fileName
+     * @return
+     */
     public Result<File> tts(String text, String fileName) {
         try {
             // 构建鉴权url

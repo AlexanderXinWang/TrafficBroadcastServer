@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="TrafficBroadcastServer:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/TrafficBroadcastServer_war</output-path>
+    <root id="archive" name="TrafficBroadcastServer_war.war">
+      <element id="artifact" artifact-name="TrafficBroadcastServer:war exploded" />
+    </root>
+  </artifact>
+</component>
