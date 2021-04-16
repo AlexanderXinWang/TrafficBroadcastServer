@@ -38,6 +38,8 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 语音听写流式 WebAPI 接口调用示例 接口文档（必看）：https://doc.xfyun.cn/rest_api/语音听写（流式版）.html
@@ -86,7 +88,7 @@ public class IatAbilityClient {
     /**
      * 单条转写测试
      */
-    public void iat(File file) {
+    public void iat(File file)  {
         String authUrl = getAuthUrl(hostUrl, apiKey, apiSecret);
         OkHttpClient client = new OkHttpClient.Builder().build();
         String url = authUrl.toString().replace("http://", "ws://").replace("https://", "wss://");
@@ -96,6 +98,8 @@ public class IatAbilityClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        final CountDownLatch latch=new CountDownLatch(1);
 
         WebSocket webSocket = client.newWebSocket(request, new WebSocketListener() {
             @Override
@@ -216,6 +220,7 @@ public class IatAbilityClient {
                             System.out.println("result=" + result);
                             decoder.discard();
                             webSocket.close(1000, "");
+                            latch.countDown();
                         } else {
                             // todo 根据返回的数据处理
                         }
@@ -258,6 +263,12 @@ public class IatAbilityClient {
             }
         });
 
+
+        try {
+            latch.await(100, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            log.error("");
+        }
     }
 
     /**
@@ -285,8 +296,8 @@ public class IatAbilityClient {
 
             iat(toFile);
 
-            // TODO 线程等待待处理（等待iat执行完毕）
-            Thread.sleep(60*1000);
+//            // TODO 线程等待待处理（等待iat执行完毕）
+//            Thread.sleep(60*1000);
 
             System.out.println(result.toString());
 
