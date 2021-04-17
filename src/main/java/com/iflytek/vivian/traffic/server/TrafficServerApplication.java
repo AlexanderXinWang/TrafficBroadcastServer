@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@SpringBootApplication(exclude={DataSourceAutoConfiguration.class,HibernateJpaAutoConfiguration.class})
+@SpringBootApplication
 @EntityScan("com.iflytek.vivian.traffic")
 @ComponentScan("com.iflytek.vivian.traffic")
 @EnableJpaRepositories("com.iflytek.vivian.traffic.server.domain.dao")

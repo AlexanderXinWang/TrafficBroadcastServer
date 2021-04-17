@@ -56,13 +56,13 @@ public class EventController {
      */
     @PostMapping("/iat")
     @ResponseBody
-    public Result<Event> iatEvent(@RequestPart("file") MultipartFile file) {
+    public Result<EventDto> iatEvent(@RequestPart("file") MultipartFile file) {
         try {
             Result<String> iatResult = iatAbilityClient.iat(file);
-            Event event = nlpService.getEventCaseSimple(iatResult.getData());
-            event.setIatResult(iatResult.getData());
-            log.info("nlp event = {}", JSON.toJSONString(event));
-            return Result.success(event);
+            EventDto eventDto = nlpService.getEventCase(iatResult.getData());
+            eventDto.setIatResult(iatResult.getData());
+            log.info("nlp event = {}", JSON.toJSONString(eventDto));
+            return Result.success(eventDto);
         } catch (Exception e) {
             log.info("语音识别失败");
             return Result.fail("识别失败");

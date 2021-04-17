@@ -82,8 +82,8 @@ public class User {
     /**
      * imageId,人脸库图片id
      */
-    @Column(name="image_id")
-    private String imageId;
+//    @Column(name="image_id")
+//    private String imageId;
 
     /**
      * 创建时间

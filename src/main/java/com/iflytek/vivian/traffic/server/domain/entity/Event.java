@@ -27,9 +27,6 @@ public class Event {
     @Column(name = "policeman_id")
     private String policemanId;
 
-    @Column(name = "policeman_name")
-    private String policemanName;
-
     /**
      * 事件类型
      */

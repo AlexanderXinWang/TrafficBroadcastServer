@@ -16,5 +16,5 @@ public interface IPolicemanDao extends JpaRepository<User, String> {
      * @param imageId
      * @return
      */
-    User findUserByImageId(String imageId);
+//    User findUserByImageId(String imageId);
 }

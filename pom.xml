@@ -151,7 +151,7 @@
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-            <version>1.14</version>
+            <version>1.6</version>
         </dependency>
 
         <dependency>
@@ -168,7 +168,7 @@
 
     </dependencies>
 
-    <build>
+    <!--<build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -178,7 +178,7 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <encoding>UTF-8</encoding>
-                    <!--lib放的位置-->
+                    &lt;!&ndash;lib放的位置&ndash;&gt;
                     <compilerArguments>
                         <extdirs>${project.basedir}/src/main/resources/lib</extdirs>
                     </compilerArguments>
@@ -219,6 +219,6 @@
 
         </resources>
 
-    </build>
+    </build>-->
 
 </project>

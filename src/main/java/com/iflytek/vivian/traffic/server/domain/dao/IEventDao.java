@@ -23,19 +23,19 @@ public interface IEventDao extends JpaRepository<Event, String> {
      * @param status
      * @return
      */
-    Event findByPolicemanIdAndStatus(String policemanId , String status);
+//    Event findByPolicemanIdAndStatus(String policemanId , String status);
 
     /**
      * 查询未处理的上报事件 且未播报的事件
      * @param status
      * @return
      */
-    List<Event> findByStatusAndIsPlay(String status, String isPlay);
+//    List<Event> findByStatusAndIsPlay(String status, String isPlay);
 
     /**
      * 查询未处理的上报事件
      * @param status
      * @return
      */
-    List<Event> findByStatus(String status);
+//    List<Event> findByStatus(String status);
 }

@@ -18,4 +18,5 @@ public class EventDto {
     private String event;
     private String eventResult;
     private String status;
+    private String iatResult;
 }
