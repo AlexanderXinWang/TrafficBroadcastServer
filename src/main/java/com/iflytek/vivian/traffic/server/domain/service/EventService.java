@@ -6,15 +6,12 @@ import com.iflytek.vivian.traffic.server.constants.ErrorCode;
 import com.iflytek.vivian.traffic.server.domain.dao.IEventDao;
 import com.iflytek.vivian.traffic.server.domain.entity.Event;
 import com.iflytek.vivian.traffic.server.dto.*;
-import com.iflytek.vivian.traffic.server.utils.StringUtil;
 import com.iflytek.vivian.traffic.server.utils.UUIDUtil;
-import jdk.nashorn.internal.ir.LiteralNode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import javax.swing.*;
 import java.util.*;
 
 /**
