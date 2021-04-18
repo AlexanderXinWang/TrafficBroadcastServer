@@ -30,6 +30,8 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.ErrorManager;
 
 /**
@@ -84,6 +86,8 @@ public class TtsAbilityClient {
                 file.createNewFile();
             }
             FileOutputStream os = new FileOutputStream(file);
+
+            final CountDownLatch latch=new CountDownLatch(1);
 
             WebSocket webSocket = client.newWebSocket(request, new WebSocketListener() {
                 @Override
@@ -155,6 +159,7 @@ public class TtsAbilityClient {
                                 webSocket.close(1000, "");
                                 try {
                                     os.close();
+                                    latch.countDown();
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -183,8 +188,11 @@ public class TtsAbilityClient {
                 }
             });
 
-            //TODO 线程等待
-            Thread.sleep(1000*10);
+            try {
+                latch.await(100, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                log.error("tts服务请求超时", e.getMessage());
+            }
 
             return Result.success(file);
         } catch (Exception e) {

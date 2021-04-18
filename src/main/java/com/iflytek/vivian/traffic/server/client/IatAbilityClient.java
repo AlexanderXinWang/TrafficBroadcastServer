@@ -99,7 +99,7 @@ public class IatAbilityClient {
             e.printStackTrace();
         }
 
-        final CountDownLatch latch=new CountDownLatch(1);
+        final CountDownLatch latch = new CountDownLatch(1);
 
         WebSocket webSocket = client.newWebSocket(request, new WebSocketListener() {
             @Override
@@ -263,11 +263,10 @@ public class IatAbilityClient {
             }
         });
 
-
         try {
             latch.await(100, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            log.error("");
+            log.error("iat服务请求超时", e.getMessage());
         }
     }
 
@@ -291,7 +290,7 @@ public class IatAbilityClient {
             }
 
             if (!toFile.exists()) {
-                log.error("", toFile.getAbsolutePath());
+                log.error("转换文件失败", toFile.getAbsolutePath());
             }
 
             iat(toFile);
