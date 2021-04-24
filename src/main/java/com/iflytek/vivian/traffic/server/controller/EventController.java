@@ -74,7 +74,7 @@ public class EventController {
      * @param eventDto
      * @return
      */
-    @PostMapping("/saveEvent")
+    @PostMapping("/save")
     @ResponseBody
     public Result<Event> saveEvent(@RequestBody EventDto eventDto) {
         return eventService.saveEvent(eventDto);
@@ -106,7 +106,7 @@ public class EventController {
      * 查询所有警情事件
      * @return
      */
-    @PostMapping("/list")
+    @GetMapping("/list")
     @ResponseBody
     public Result<List<Event>> listEvent() {
         return eventService.listEvent();
@@ -117,7 +117,7 @@ public class EventController {
      * @param userDto
      * @return
      */
-    @PostMapping("/select")
+    @PostMapping("/detail")
     @ResponseBody
     public Result<Event> selectEvent(UserDto userDto) {
         return eventService.selectEvent(userDto);

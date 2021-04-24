@@ -89,7 +89,7 @@ public class PolicemanController {
      * @param userDto
      * @return
      */
-    @PostMapping("/select")
+    @PostMapping("/detail")
     @ResponseBody
     public Result<User> selectPoliceman(UserDto userDto) {
         return policemanService.selectPoliceman(userDto);
