@@ -60,19 +60,34 @@ public class PolicemanService {
 
         try {
             User user = null;
-            if (StringUtils.isEmpty(userDto.getId())){
+            /*if (StringUtils.isEmpty(userDto.getId())){
                 user = new User();
-                user.setId(UUIDUtil.uuid());
+                user.setId(userDto.getId());
             }else {
                 user = policemanDao.findOne(userDto.getId());
                 if (null == user || !userDto.getId().equals(user.getId())){
                     return Result.fail("参数错误");
+                } else if (user != null) {
+                    return Result.fail("此用户已经存在");
+                }
+            }*/
+
+            if (StringUtils.isEmpty(userDto.getId())) {
+                return Result.fail("用户必填id为空");
+            } else {
+                user = policemanDao.findOne(userDto.getId());
+
+                if (user != null) {
+                    return Result.fail("此用户已经存在");
+                } else {
+                    user = new User();
+                    user.setId(userDto.getId());
                 }
             }
 
             user.setName(userDto.getName());
             user.setNameEN(userDto.getNameEN());
-            user.setNumber(userDto.getNumber());
+//            user.setNumber(userDto.getNumber());
             user.setPassword(userDto.getPassword());
 //            user.setPlace(userDto.getPlace());
 //            user.setStatus(userDto.getStatus());
@@ -137,7 +152,7 @@ public class PolicemanService {
 
             user.setName(userDto.getName());
             user.setNameEN(userDto.getNameEN());
-            user.setNumber(userDto.getNumber());
+//            user.setNumber(userDto.getNumber());
             user.setPlace(userDto.getPlace());
             user.setStatus(userDto.getStatus());
             user.setRole(userDto.getRole());

@@ -59,7 +59,7 @@ public class PolicemanController {
      */
     @PostMapping("/delete")
     @ResponseBody
-    public Result<Boolean> deletePoliceman(List<UserDto> userDtoList){
+    public Result<Boolean> deletePoliceman(@RequestBody List<UserDto> userDtoList){
         return policemanService.deletePoliceman(userDtoList);
     }
 
@@ -70,7 +70,7 @@ public class PolicemanController {
      */
     @PostMapping("/update")
     @ResponseBody
-    public Result<User> updatePoliceman(UserDto userDto){
+    public Result<User> updatePoliceman(@RequestBody UserDto userDto){
         return policemanService.updatePoliceman(userDto);
     }
 
@@ -78,7 +78,7 @@ public class PolicemanController {
      * 查询所有警员信息
      * @return
      */
-    @PostMapping("/list")
+    @GetMapping("/list")
     @ResponseBody
     public Result<List<User>> listPoliceman(){
         return policemanService.listPoliceman();
@@ -91,7 +91,7 @@ public class PolicemanController {
      */
     @PostMapping("/detail")
     @ResponseBody
-    public Result<User> selectPoliceman(UserDto userDto) {
+    public Result<User> selectPoliceman(@RequestBody UserDto userDto) {
         return policemanService.selectPoliceman(userDto);
     }
 

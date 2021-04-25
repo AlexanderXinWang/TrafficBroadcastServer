@@ -98,7 +98,7 @@ public class EventController {
      */
     @PostMapping("/update")
     @ResponseBody
-    public Result<Event> updateEvent(EventDto eventDto) {
+    public Result<Event> updateEvent(@RequestBody EventDto eventDto) {
         return eventService.updateEvent(eventDto);
     }
 
@@ -119,7 +119,7 @@ public class EventController {
      */
     @PostMapping("/detail")
     @ResponseBody
-    public Result<Event> selectEvent(UserDto userDto) {
+    public Result<Event> selectEvent(@RequestBody UserDto userDto) {
         return eventService.selectEvent(userDto);
     }
 

@@ -75,8 +75,8 @@ public class User {
     /**
      * 编号
      */
-    @Column
-    private String number;
+//    @Column
+//    private String number;
 
     /**
      * imageId,人脸库图片id
