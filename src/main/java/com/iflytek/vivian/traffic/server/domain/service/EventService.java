@@ -60,9 +60,10 @@ public class EventService {
                 event.setEventResult(eventDto.getEventResult());
             }
 
+            event.setIatResult(eventDto.getIatResult());
 //            event.setStatus(Constants.EventState.EventReport.getValue());
             event.setIsPlay("0");
-            event.setUpdateTime(new Date());
+//            event.setUpdateTime(new Date());
 
             eventDao.save(event);
 
@@ -118,6 +119,7 @@ public class EventService {
             event.setEvent(event.getEvent());
             event.setEventResult(event.getEventResult());
             event.setStatus(event.getStatus());
+            event.setIatResult(eventDto.getIatResult());
 
             eventDao.save(event);
 

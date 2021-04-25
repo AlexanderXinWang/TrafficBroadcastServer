@@ -33,7 +33,7 @@ public class PolicemanController {
      */
     @PostMapping("/login")
     @ResponseBody
-    public Result<User> userLogin(UserDto userDto){
+    public Result<User> userLogin(@RequestBody UserDto userDto){
         try {
             return policemanService.login(userDto);
         } catch (BaseException e){

@@ -87,7 +87,7 @@ public class EventController {
      */
     @PostMapping("/delete")
     @ResponseBody
-    public Result<Boolean> deleteEvent(List<EventDto> eventDtoList) {
+    public Result<Boolean> deleteEvent(@RequestBody List<EventDto> eventDtoList) {
         return eventService.deleteEvent(eventDtoList);
     }
 

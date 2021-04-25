@@ -49,7 +49,7 @@ public class Event {
     private String event;
 
     /**
-     *  事件影响
+     *  事件结果
      */
     @Column(name="event_result")
     private String eventResult;
@@ -93,7 +93,7 @@ public class Event {
     private String isPlay;
 
     /**
-     * 时间描述
+     * 事件备注
      */
     @Column(name = "event_desc")
     private String desc;
