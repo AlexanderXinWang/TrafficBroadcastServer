@@ -31,6 +31,12 @@ public class User {
     private String password;
 
     /**
+     * 是否为管理员身份
+     */
+    @Column(name = "is_admin")
+    private Integer isAdmin;
+
+    /**
      * 名字
      */
     @Column

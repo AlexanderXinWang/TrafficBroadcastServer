@@ -96,10 +96,11 @@ public class PolicemanService {
             user.setAge(userDto.getAge());
             user.setDepartment(userDto.getDepartment());
 //            user.setImageId(fdbImage.getImageId());
-            if (StringUtils.isEmpty(userDto.getRole())) {
-                user.setRole("user");
+            user.setRole(userDto.getRole());
+            if (StringUtils.isEmpty(userDto.getIsAdmin())) {
+                user.setIsAdmin(0);
             } else {
-                user.setRole(userDto.getRole());
+                user.setIsAdmin(userDto.getIsAdmin());
             }
 //            policemanDao.save(user);
 //            policemanDao.flush();
@@ -150,9 +151,18 @@ public class PolicemanService {
                 return Result.fail("未查找到指定警员");
             }
 
+
+
+            user.setPassword(userDto.getPassword());
             user.setName(userDto.getName());
+
+            if (StringUtils.isEmpty(userDto.getIsAdmin())) {
+                user.setIsAdmin(0);
+            } else {
+                user.setIsAdmin(userDto.getIsAdmin());
+            }
+
             user.setNameEN(userDto.getNameEN());
-//            user.setNumber(userDto.getNumber());
             user.setPlace(userDto.getPlace());
             user.setStatus(userDto.getStatus());
             user.setRole(userDto.getRole());

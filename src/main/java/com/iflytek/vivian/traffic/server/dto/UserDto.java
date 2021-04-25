@@ -20,6 +20,7 @@ public class UserDto {
      * 密码
      */
     private String password;
+    private Integer isAdmin;
     /**
      * 名字
      */
@@ -44,8 +45,6 @@ public class UserDto {
      * 年龄
      */
     private int age;
-    private String imageData;
-    private String imageId;
 
     /**
      * 所处位置（地点）
