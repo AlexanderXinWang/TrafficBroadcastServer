@@ -48,7 +48,7 @@ public class PolicemanController {
      */
     @PostMapping("/save")
     @ResponseBody
-    public Result<User> savePoliceman(UserDto userDto){
+    public Result<User> savePoliceman(@RequestBody UserDto userDto){
         return policemanService.savePoliceman(userDto);
     }
 

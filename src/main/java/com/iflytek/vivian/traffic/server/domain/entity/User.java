@@ -1,12 +1,10 @@
 package com.iflytek.vivian.traffic.server.domain.entity;
 
 import lombok.Data;
+import lombok.Generated;
 import org.aspectj.lang.annotation.DeclareAnnotation;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -23,6 +21,7 @@ public class User {
      */
     @Id
     @Column
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     /**
@@ -96,4 +95,5 @@ public class User {
      */
     @Column(name="update_time")
     private Date updateTime;
+
 }

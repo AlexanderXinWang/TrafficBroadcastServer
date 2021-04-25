@@ -62,7 +62,7 @@ public class PolicemanService {
             User user = null;
             if (StringUtils.isEmpty(userDto.getId())){
                 user = new User();
-                user.setId(userDto.getId());
+                user.setId(UUIDUtil.uuid());
             }else {
                 user = policemanDao.findOne(userDto.getId());
                 if (null == user || !userDto.getId().equals(user.getId())){
@@ -73,8 +73,9 @@ public class PolicemanService {
             user.setName(userDto.getName());
             user.setNameEN(userDto.getNameEN());
             user.setNumber(userDto.getNumber());
-            user.setPlace(userDto.getPlace());
-            user.setStatus(userDto.getStatus());
+            user.setPassword(userDto.getPassword());
+//            user.setPlace(userDto.getPlace());
+//            user.setStatus(userDto.getStatus());
             user.setRole(userDto.getRole());
             user.setCreateTime(new Date());
             user.setAge(userDto.getAge());
@@ -85,8 +86,9 @@ public class PolicemanService {
             } else {
                 user.setRole(userDto.getRole());
             }
-
-            policemanDao.save(user);
+//            policemanDao.save(user);
+//            policemanDao.flush();
+            policemanDao.saveAndFlush(user);
             return Result.success(user);
         }catch (Exception e){
             return Result.fail(ErrorCode.FAIL,"注册警员发生错误:" + e.getMessage());
