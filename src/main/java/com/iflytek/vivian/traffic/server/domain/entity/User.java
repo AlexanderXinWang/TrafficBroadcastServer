@@ -25,6 +25,12 @@ public class User {
     private String id;
 
     /**
+     * 名字
+     */
+    @Column
+    private String name;
+
+    /**
      * 密码
      */
     @Column
@@ -37,22 +43,10 @@ public class User {
     private Integer isAdmin;
 
     /**
-     * 名字
-     */
-    @Column
-    private String name;
-
-    /**
      * 英文名
      */
     @Column(name="name_en")
     private String nameEN;
-
-    /**
-     * 职位
-     */
-    @Column
-    private String role;
 
     /**
      * 年龄
@@ -61,34 +55,16 @@ public class User {
     private int age;
 
     /**
-     *  所处位置（地点）
-     */
-    @Column
-    private String place;
-
-    /**
      *  所属部门
      */
     @Column
     private String department;
 
     /**
-     * 状态
+     * 职位
      */
     @Column
-    private String status;
-
-    /**
-     * 编号
-     */
-//    @Column
-//    private String number;
-
-    /**
-     * imageId,人脸库图片id
-     */
-//    @Column(name="image_id")
-//    private String imageId;
+    private String role;
 
     /**
      * 创建时间
@@ -102,4 +78,17 @@ public class User {
     @Column(name="update_time")
     private Date updateTime;
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     *  所处位置（地点）
+     */
+    @Column
+    private String place;
+
+    /**
+     * 状态
+     */
+    @Column
+    private String status;
 }

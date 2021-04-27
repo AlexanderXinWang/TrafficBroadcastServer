@@ -30,10 +30,6 @@ public class UserDto {
      */
     private String nameEN;
     /**
-     * 编号
-     */
-    private String number;
-    /**
      * 职位 角色
      */
     private String role;
@@ -47,16 +43,6 @@ public class UserDto {
     private int age;
 
     /**
-     * 所处位置（地点）
-     */
-    private String place;
-
-    /**
-     * 状态
-     */
-    private String status;
-
-    /**
      * 创建时间
      */
     private Date createTime;
@@ -65,4 +51,16 @@ public class UserDto {
      * 更新时间
      */
     private Date updateTime;
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * 所处位置（地点）
+     */
+    private String place;
+
+    /**
+     * 状态
+     */
+    private String status;
 }

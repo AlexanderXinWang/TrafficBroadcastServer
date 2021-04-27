@@ -82,13 +82,13 @@ public class EventController {
 
     /**
      * 批量删除事件
-     * @param eventDtoList
+     * @param eventIds
      * @return
      */
     @PostMapping("/delete")
     @ResponseBody
-    public Result<Boolean> deleteEvent(@RequestBody List<EventDto> eventDtoList) {
-        return eventService.deleteEvent(eventDtoList);
+    public Result<Boolean> deleteEvent(@RequestBody List<String> eventIds) {
+        return eventService.deleteEvent(eventIds);
     }
 
     /**
@@ -114,13 +114,13 @@ public class EventController {
 
     /**
      * 查询单个警情事件的详情信息
-     * @param userDto
+     * @param eventId
      * @return
      */
-    @PostMapping("/detail")
+    @PostMapping("/detail/{eventId}")
     @ResponseBody
-    public Result<Event> selectEvent(@RequestBody UserDto userDto) {
-        return eventService.selectEvent(userDto);
+    public Result<Event> selectEvent(@PathVariable String eventId) {
+        return eventService.selectEvent(eventId);
     }
 
     /**

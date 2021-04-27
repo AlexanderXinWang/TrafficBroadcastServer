@@ -60,17 +60,6 @@ public class PolicemanService {
 
         try {
             User user = null;
-            /*if (StringUtils.isEmpty(userDto.getId())){
-                user = new User();
-                user.setId(userDto.getId());
-            }else {
-                user = policemanDao.findOne(userDto.getId());
-                if (null == user || !userDto.getId().equals(user.getId())){
-                    return Result.fail("参数错误");
-                } else if (user != null) {
-                    return Result.fail("此用户已经存在");
-                }
-            }*/
 
             if (StringUtils.isEmpty(userDto.getId())) {
                 return Result.fail("用户必填id为空");
@@ -113,18 +102,18 @@ public class PolicemanService {
 
     /**
      *  批量移除警员信息
-     * @param userDtoList
+     * @param userIds
      * @return
      */
-    public Result<Boolean> deletePoliceman(List<UserDto> userDtoList){
+    public Result<Boolean> deletePoliceman(List<String> userIds){
         try {
             List<User> userList = new ArrayList<>();
-            for (UserDto userDto : userDtoList) {
-                if (StringUtils.isEmpty(userDto.getId())){
+            for (String userId : userIds) {
+                if (StringUtils.isEmpty(userId)){
                     return Result.fail("警员信息错误");
                 }
-                User user = policemanDao.findOne(userDto.getId());
-                if (null == user || !userDto.getId().equals(user.getId())){
+                User user = policemanDao.findOne(userId);
+                if (null == user || !userId.equals(user.getId())){
                     return Result.fail("未查找到指定警员");
                 }
                 userList.add(user);
@@ -187,11 +176,11 @@ public class PolicemanService {
 
     /**
      * 查询单个警员详情信息
-     * @param userDto
+     * @param userId
      * @return
      */
-    public Result<User> selectPoliceman(UserDto userDto) {
-        return Result.success(policemanDao.findOne(userDto.getId()));
+    public Result<User> selectPoliceman(String userId) {
+        return Result.success(policemanDao.findOne(userId));
     }
 
 

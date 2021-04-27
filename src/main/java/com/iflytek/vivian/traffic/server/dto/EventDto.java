@@ -13,10 +13,12 @@ import org.springframework.stereotype.Component;
 public class EventDto {
     private String id;
     private String policemanId;
+    private String policemanName;
     private String location;
     private String vehicle;
     private String event;
     private String eventResult;
     private String status;
+    private String isPlay;
     private String iatResult;
 }

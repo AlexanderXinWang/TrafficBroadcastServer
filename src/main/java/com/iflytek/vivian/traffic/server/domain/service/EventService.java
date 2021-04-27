@@ -41,6 +41,7 @@ public class EventService {
                 event.setId(UUIDUtil.uuid());
             }
             event.setPolicemanId(eventDto.getPolicemanId());
+            event.setPolicemanName(eventDto.getPolicemanName());
             // 创建新事件 默认为未处理 赋值1
             eventDto.setStatus(Constants.EventState.EventReport.getValue());
             event.setStartTime(new Date());
@@ -75,18 +76,18 @@ public class EventService {
 
     /**
      * 批量删除警情事件
-     * @param eventDtoList
+     * @param eventIds
      * @return
      */
-    public Result<Boolean> deleteEvent(List<EventDto> eventDtoList) {
+    public Result<Boolean> deleteEvent(List<String> eventIds) {
         try {
             List<Event> eventList = new ArrayList<>();
-            for (EventDto eventDto : eventDtoList) {
-                if (StringUtils.isEmpty(eventDto.getId())) {
+            for (String eventId : eventIds) {
+                if (StringUtils.isEmpty(eventId)) {
                     return Result.fail("删除警情事件信息错误");
                 }
-                Event event = eventDao.findOne(eventDto.getId());
-                if (null == event || !eventDto.getId().equals(event.getId())) {
+                Event event = eventDao.findOne(eventId);
+                if (null == event || !eventId.equals(event.getId())) {
                     return Result.fail("未查找到指定事件");
                 }
                 eventList.add(event);
@@ -114,11 +115,15 @@ public class EventService {
             }
             // 赋值
             event.setPolicemanId(eventDto.getPolicemanId());
+            event.setPolicemanName(eventDto.getPolicemanName());
             event.setLocation(eventDto.getLocation());
             event.setVehicle(eventDto.getVehicle());
             event.setEvent(event.getEvent());
             event.setEventResult(event.getEventResult());
+            event.setUpdateTime(new Date());
             event.setStatus(event.getStatus());
+            event.setIsPlay(eventDto.getIsPlay());
+//          TODO  event.setDesc();
             event.setIatResult(eventDto.getIatResult());
 
             eventDao.save(event);
@@ -139,11 +144,11 @@ public class EventService {
 
     /**
      * 查询单个警情事件的详情信息
-     * @param userDto
+     * @param eventId
      * @return
      */
-    public Result<Event> selectEvent(UserDto userDto) {
-        return Result.success(eventDao.findOne(userDto.getId()));
+    public Result<Event> selectEvent(String eventId) {
+        return Result.success(eventDao.findOne(eventId));
     }
 
     /**

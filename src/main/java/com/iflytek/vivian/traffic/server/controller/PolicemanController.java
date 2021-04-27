@@ -54,13 +54,13 @@ public class PolicemanController {
 
     /**
      * 批量警员移除
-     * @param userDtoList
+     * @param userIds
      * @return
      */
     @PostMapping("/delete")
     @ResponseBody
-    public Result<Boolean> deletePoliceman(@RequestBody List<UserDto> userDtoList){
-        return policemanService.deletePoliceman(userDtoList);
+    public Result<Boolean> deletePoliceman(@RequestBody List<String> userIds){
+        return policemanService.deletePoliceman(userIds);
     }
 
     /**
@@ -86,13 +86,13 @@ public class PolicemanController {
 
     /**
      * 查询单个警员详情信息
-     * @param userDto
+     * @param userId
      * @return
      */
-    @PostMapping("/detail")
+    @PostMapping("/detail/{userId}")
     @ResponseBody
-    public Result<User> selectPoliceman(@RequestBody UserDto userDto) {
-        return policemanService.selectPoliceman(userDto);
+    public Result<User> selectPoliceman(@PathVariable String userId) {
+        return policemanService.selectPoliceman(userId);
     }
 
 

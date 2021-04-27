@@ -24,11 +24,8 @@ public class Event {
     @Column(name = "policeman_id")
     private String policemanId;
 
-    /**
-     * 事件类型
-     */
-    @Column
-    private String type;
+    @Column(name = "policeman_name")
+    private String policemanName;
 
     /**
      * 事件发生地
@@ -56,6 +53,10 @@ public class Event {
 
     @Column(name="iat_result")
     private String iatResult;
+
+    @Column(name = "pcm")
+    private byte[] pcm;
+
     /**
      * 事件发生时间
      */
@@ -80,6 +81,10 @@ public class Event {
     @Column(name="update_time")
     private Date updateTime;
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    //待用字段
+
     /**
      * 状态
      */
@@ -98,7 +103,12 @@ public class Event {
     @Column(name = "event_desc")
     private String desc;
 
-    @Column(name = "pcm")
-    private byte[] pcm;
+    /**
+     * 事件类型
+     */
+    @Column
+    private String type;
+
+
 
 }
