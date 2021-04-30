@@ -9,6 +9,7 @@ import com.iflytek.vivian.traffic.server.dto.*;
 import com.iflytek.vivian.traffic.server.utils.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -139,7 +140,8 @@ public class EventService {
      * @return
      */
     public Result<List<Event>> listEvent() {
-        return Result.success(eventDao.findAll());
+        Sort sort = new Sort(Sort.Direction.DESC, "startTime");
+        return Result.success(eventDao.findAll(sort));
     }
 
     /**

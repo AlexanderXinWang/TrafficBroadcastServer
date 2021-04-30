@@ -8,6 +8,7 @@ import com.iflytek.vivian.traffic.server.dto.UserDto;
 import com.iflytek.vivian.traffic.server.utils.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -171,6 +172,7 @@ public class PolicemanService {
      * @return
      */
     public Result<List<User>> listPoliceman(){
+        Sort sort = new Sort(Sort.Direction.ASC, "name");
         return Result.success(policemanDao.findAll());
     }
 

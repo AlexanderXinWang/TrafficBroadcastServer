@@ -264,7 +264,7 @@ public class IatAbilityClient {
         });
 
         try {
-            latch.await(100, TimeUnit.SECONDS);
+            latch.await(200, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             log.error("iat服务请求超时", e.getMessage());
         }
@@ -294,9 +294,6 @@ public class IatAbilityClient {
             }
 
             iat(toFile);
-
-            // TODO 线程等待待处理（等待iat执行完毕）
-//            Thread.sleep(60*1000);
 
             System.out.println(result.toString());
 

@@ -17,6 +17,9 @@ import java.util.List;
 
 
 public interface IEventDao extends JpaRepository<Event, String> {
+
+
+
     /**
      * 根据 警员id和事件状态查找事件
      * @param policemanId
