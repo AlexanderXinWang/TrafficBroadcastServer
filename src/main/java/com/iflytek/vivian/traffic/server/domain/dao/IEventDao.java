@@ -37,7 +37,18 @@ public interface IEventDao extends JpaRepository<Event, String> {
     List<Event> orderByNameDesc();
 
     /**
-     * 根据 警员id和事件状态查找事件
+     * 根据警员id查找事件
+     * * @param policemanId
+     * @return
+     */
+    List<Event> findEventsByPolicemanId(String policemanId);
+
+    List<Event> findEventsByEventLike(String s);
+    List<Event> findEventsByLocationLike(String s);
+    List<Event> findEventsByPolicemanNameLike(String s);
+
+    /**
+     * 根据警员id和事件状态查找事件
      * @param policemanId
      * @param status
      * @return

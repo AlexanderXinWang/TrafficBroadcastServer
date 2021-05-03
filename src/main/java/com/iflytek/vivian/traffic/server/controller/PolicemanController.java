@@ -98,62 +98,65 @@ public class PolicemanController {
 
     @GetMapping("/list/id/asc")
     @ResponseBody
-    public Result<List<User>> listEventByIdAsc(){
-        return policemanService.listEventByIdAsc();
+    public Result<List<User>> listUserByIdAsc(){
+        return policemanService.listPolicemanByIdAsc();
     }
 
     @GetMapping("/list/id/desc")
     @ResponseBody
-    public Result<List<User>> listEventByIdDesc(){
-        return policemanService.listEventByIdDesc();
+    public Result<List<User>> listUserByIdDesc(){
+        return policemanService.listPolicemanByIdDesc();
     }
 
     @GetMapping("/list/name/asc")
     @ResponseBody
-    public Result<List<User>> listEventByNameAsc(){
-        return policemanService.listEventByNameAsc();
+    public Result<List<User>> listUserByNameAsc(){
+        return policemanService.listPolicemanByNameAsc();
     }
 
     @GetMapping("/list/name/desc")
     @ResponseBody
-    public Result<List<User>> listEventByNameDesc(){
-        return policemanService.listEventByNameDesc();
+    public Result<List<User>> listUserByNameDesc(){
+        return policemanService.listPolicemanByNameDesc();
     }
 
     @GetMapping("/list/age/asc")
     @ResponseBody
     public Result<List<User>> listEventByAgeAsc(){
-        return policemanService.listEventByAgeAsc();
+        return policemanService.listPolicemanByAgeAsc();
     }
 
     @GetMapping("/list/age/desc")
     @ResponseBody
     public Result<List<User>> listEventByAgeDesc(){
-        return policemanService.listEventByAgeDesc();
+        return policemanService.listPolicemanByAgeDesc();
     }
 
     @GetMapping("/list/department/asc")
     @ResponseBody
     public Result<List<User>> listEventByDepartmentAsc(){
-        return policemanService.listEventByDepartmentAsc();
+        return policemanService.listPolicemanByDepartmentAsc();
     }
 
     @GetMapping("/list/department/desc")
     @ResponseBody
     public Result<List<User>> listEventByDepartmentDesc(){
-        return policemanService.listEventByDepartmentDesc();
+        return policemanService.listPolicemanByDepartmentDesc();
     }
 
     @GetMapping("/list/time/asc")
     @ResponseBody
     public Result<List<User>> listEventByTimeAsc(){
-        return policemanService.listEventByTimeAsc();
+        return policemanService.listPolicemanByTimeAsc();
     }
 
     @GetMapping("/list/time/desc")
     @ResponseBody
     public Result<List<User>> listEventByTimeDesc(){
-        return policemanService.listEventByTimeDesc();
+        return policemanService.listPolicemanByTimeDesc();
     }
+
+
+
 
 }

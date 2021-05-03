@@ -187,49 +187,50 @@ public class PolicemanService {
     }
 
 
-    public Result<List<User>> listEventByNameAsc() {
+    public Result<List<User>> listPolicemanByNameAsc() {
         return Result.success(policemanDao.orderByNameAsc());
     }
 
-    public Result<List<User>> listEventByNameDesc() {
+    public Result<List<User>> listPolicemanByNameDesc() {
         return Result.success(policemanDao.orderByNameDesc());
     }
 
-    public Result<List<User>> listEventByDepartmentAsc() {
+    public Result<List<User>> listPolicemanByDepartmentAsc() {
         return Result.success(policemanDao.orderByDepartmentAsc());
     }
 
-    public Result<List<User>> listEventByDepartmentDesc() {
+    public Result<List<User>> listPolicemanByDepartmentDesc() {
         return Result.success(policemanDao.orderByDepartmentDesc());
     }
 
-    public Result<List<User>> listEventByIdAsc() {
+    public Result<List<User>> listPolicemanByIdAsc() {
         Sort sort = new Sort(Sort.Direction.ASC, "id");
         return Result.success(policemanDao.findAll(sort));
     }
 
-    public Result<List<User>> listEventByIdDesc() {
+    public Result<List<User>> listPolicemanByIdDesc() {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         return Result.success(policemanDao.findAll(sort));
     }
 
-    public Result<List<User>> listEventByAgeAsc() {
+    public Result<List<User>> listPolicemanByAgeAsc() {
         Sort sort = new Sort(Sort.Direction.ASC, "age");
         return Result.success(policemanDao.findAll(sort));
     }
 
-    public Result<List<User>> listEventByAgeDesc() {
+    public Result<List<User>> listPolicemanByAgeDesc() {
         Sort sort = new Sort(Sort.Direction.DESC, "age");
         return Result.success(policemanDao.findAll(sort));
     }
 
-    public Result<List<User>> listEventByTimeAsc() {
+    public Result<List<User>> listPolicemanByTimeAsc() {
         Sort sort = new Sort(Sort.Direction.DESC, "create_time");
         return Result.success(policemanDao.findAll(sort));
     }
 
-    public Result<List<User>> listEventByTimeDesc() {
+    public Result<List<User>> listPolicemanByTimeDesc() {
         Sort sort = new Sort(Sort.Direction.DESC, "create_time");
         return Result.success(policemanDao.findAll(sort));
     }
+
 }

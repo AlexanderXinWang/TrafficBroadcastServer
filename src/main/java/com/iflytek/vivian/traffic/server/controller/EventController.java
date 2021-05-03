@@ -123,6 +123,17 @@ public class EventController {
         return eventService.selectEvent(eventId);
     }
 
+    /**
+     * 查询当前警员上报的所有事件
+     * @param userId
+     * @return
+     */
+    @PostMapping("/{userId}/record")
+    @ResponseBody
+    public Result<List<Event>> getReportedEventList(@PathVariable String userId) {
+        return eventService.getPolicemanRecord(userId);
+    }
+
     @GetMapping("/list/time/asc")
     @ResponseBody
     public Result<List<Event>> listEventByTimeAsc(){

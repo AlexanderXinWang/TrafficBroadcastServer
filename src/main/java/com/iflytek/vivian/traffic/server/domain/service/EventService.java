@@ -153,6 +153,15 @@ public class EventService {
     }
 
     /**
+     * 根据警员id查找事件
+     * @param userId
+     * @return
+     */
+    public Result<List<Event>> getPolicemanRecord(String userId) {
+        return Result.success(eventDao.findEventsByPolicemanId(userId));
+    }
+
+    /**
      * 查询所有警情（时间升序）
      * @return
      */
@@ -209,4 +218,6 @@ public class EventService {
     public void openEventNotify() {
 
     }
+
+
 }
