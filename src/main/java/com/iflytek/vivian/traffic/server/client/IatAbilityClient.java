@@ -31,6 +31,7 @@ import javax.annotation.PostConstruct;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -88,16 +89,13 @@ public class IatAbilityClient {
     /**
      * 单条转写测试
      */
-    public void iat(File file)  {
+    public void iat(File file) throws IOException {
         String authUrl = getAuthUrl(hostUrl, apiKey, apiSecret);
         OkHttpClient client = new OkHttpClient.Builder().build();
         String url = authUrl.toString().replace("http://", "ws://").replace("https://", "wss://");
         Request request = new Request.Builder().url(url).build();
-        try {
-            System.out.println(client.newCall(request).execute());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Response response = client.newCall(request).execute();
+        log.info("response={}", response);
 
         final CountDownLatch latch = new CountDownLatch(1);
 
@@ -170,7 +168,7 @@ public class IatAbilityClient {
                                     data2.addProperty("encoding", "raw");
                                     frame2.add("data", data2);
                                     webSocket.send(frame2.toString());
-                                    System.out.println("sendlast");
+                                    log.info("sendlast");
                                     break end;
                             }
                             Thread.sleep(interval); //模拟音频采样延时
@@ -192,8 +190,8 @@ public class IatAbilityClient {
                 IatResponseData resp = json.fromJson(text, IatResponseData.class);
                 if (resp != null) {
                     if (resp.getCode() != 0) {
-                        System.out.println( "code=>" + resp.getCode() + " error=>" + resp.getMessage() + " sid=" + resp.getSid());
-                        System.out.println( "错误码查询链接：https://www.xfyun.cn/document/error-code");
+                        log.info( "code=>" + resp.getCode() + " error=>" + resp.getMessage() + " sid=" + resp.getSid());
+                        log.info( "错误码查询链接：https://www.xfyun.cn/document/error-code");
                         return;
                     }
                     if (resp.getData() != null) {
@@ -202,22 +200,22 @@ public class IatAbilityClient {
                             //System.out.println(te.toString());
                             try {
                                 decoder.decode(te);
-                                System.out.println("中间识别结果 ==》" + decoder.toString());
+                                log.info("中间识别结果 ==》" + decoder.toString());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
                         if (resp.getData().getStatus() == 2) {
                             // todo  resp.data.status ==2 说明数据全部返回完毕，可以关闭连接，释放资源
-                            System.out.println("session end ");
+                            log.info("session end ");
                             dateEnd = new Date();
-                            System.out.println(sdf.format(dateBegin) + "开始");
-                            System.out.println(sdf.format(dateEnd) + "结束");
-                            System.out.println("耗时:" + (dateEnd.getTime() - dateBegin.getTime()) + "ms");
-                            System.out.println("最终识别结果 ==》" + decoder.toString());
-                            System.out.println("本次识别sid ==》" + resp.getSid());
+                            log.info(sdf.format(dateBegin) + "开始");
+                            log.info(sdf.format(dateEnd) + "结束");
+                            log.info("耗时:" + (dateEnd.getTime() - dateBegin.getTime()) + "ms");
+                            log.info("最终识别结果 ==》" + decoder.toString());
+                            log.info("本次识别sid ==》" + resp.getSid());
                             result.append(decoder.toString());
-                            System.out.println("result=" + result);
+                            log.info("result=" + result);
                             decoder.discard();
                             webSocket.close(1000, "");
                             latch.countDown();
@@ -241,6 +239,7 @@ public class IatAbilityClient {
             @Override
             public void onClosed(WebSocket webSocket, int code, String reason) {
                 super.onClosed(webSocket, code, reason);
+                response.close();
             }
 
             @Override
@@ -249,10 +248,10 @@ public class IatAbilityClient {
                 try {
                     if (null != response) {
                         int code = response.code();
-                        System.out.println("onFailure code:" + code);
-                        System.out.println("onFailure body:" + response.body().string());
+                        log.error("onFailure code:" + code);
+                        log.error("onFailure body:" + response.body().string());
                         if (101 != code) {
-                            System.out.println("connection failed");
+                            log.error("connection failed");
                             System.exit(0);
                         }
                     }
@@ -263,8 +262,9 @@ public class IatAbilityClient {
             }
         });
 
+
         try {
-            latch.await(200, TimeUnit.SECONDS);
+            latch.await(100, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             log.error("iat服务请求超时", e.getMessage());
         }
@@ -295,7 +295,7 @@ public class IatAbilityClient {
 
             iat(toFile);
 
-            System.out.println(result.toString());
+            log.info(result.toString());
 
             return Result.success(result.toString());
         } catch (Exception e) {
@@ -337,7 +337,7 @@ public class IatAbilityClient {
         //System.out.println(sha);
         String authorization = String.format("api_key=\"%s\", algorithm=\"%s\", headers=\"%s\", signature=\"%s\"", apiKey, "hmac-sha256", "host date request-line", sha);
         //System.out.println(authorization);
-        HttpUrl httpUrl = HttpUrl.parse("https://" + url.getHost() + url.getPath()).newBuilder().//
+        HttpUrl httpUrl = HttpUrl.parse("https://" + url.getHost() + url.getPath()).newBuilder().
                 addQueryParameter("authorization", Base64.getEncoder().encodeToString(authorization.getBytes(charset))).//
                 addQueryParameter("date", date).//
                 addQueryParameter("host", url.getHost()).//

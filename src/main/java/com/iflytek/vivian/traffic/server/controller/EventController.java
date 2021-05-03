@@ -123,6 +123,54 @@ public class EventController {
         return eventService.selectEvent(eventId);
     }
 
+    @GetMapping("/list/time/asc")
+    @ResponseBody
+    public Result<List<Event>> listEventByTimeAsc(){
+        return eventService.listEventByTimeAsc();
+    }
+
+    @GetMapping("/list/time/desc")
+    @ResponseBody
+    public Result<List<Event>> listEventByTimeDesc(){
+        return eventService.listEventByTimeDesc();
+    }
+
+    @GetMapping("/list/event/asc")
+    @ResponseBody
+    public Result<List<Event>> listEventByEventAsc(){
+        return eventService.listEventByEventAsc();
+    }
+
+    @GetMapping("/list/event/desc")
+    @ResponseBody
+    public Result<List<Event>> listEventByEventDesc(){
+        return eventService.listEventByEventDesc();
+    }
+
+    @GetMapping("/list/location/asc")
+    @ResponseBody
+    public Result<List<Event>> listEventByLocationAsc(){
+        return eventService.listEventByLocationAsc();
+    }
+
+    @GetMapping("/list/location/desc")
+    @ResponseBody
+    public Result<List<Event>> listEventByLocationDesc(){
+        return eventService.listEventByLocationDesc();
+    }
+
+    @GetMapping("/list/name/asc")
+    @ResponseBody
+    public Result<List<Event>> listEventByNameAsc(){
+        return eventService.listEventByNameAsc();
+    }
+
+    @GetMapping("/list/name/desc")
+    @ResponseBody
+    public Result<List<Event>> listEventByNameDesc(){
+        return eventService.listEventByNameDesc();
+    }
+
     /**
      * 播放警情事件（开/关）
      * @param ttsDto

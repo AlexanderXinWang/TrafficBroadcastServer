@@ -1,5 +1,6 @@
 package com.iflytek.vivian.traffic.server.controller;
 
+import com.iflytek.vivian.traffic.server.domain.entity.Event;
 import com.iflytek.vivian.traffic.server.domain.entity.User;
 import com.iflytek.vivian.traffic.server.domain.service.PolicemanService;
 import com.iflytek.vivian.traffic.server.dto.Result;
@@ -95,5 +96,64 @@ public class PolicemanController {
         return policemanService.selectPoliceman(userId);
     }
 
+    @GetMapping("/list/id/asc")
+    @ResponseBody
+    public Result<List<User>> listEventByIdAsc(){
+        return policemanService.listEventByIdAsc();
+    }
+
+    @GetMapping("/list/id/desc")
+    @ResponseBody
+    public Result<List<User>> listEventByIdDesc(){
+        return policemanService.listEventByIdDesc();
+    }
+
+    @GetMapping("/list/name/asc")
+    @ResponseBody
+    public Result<List<User>> listEventByNameAsc(){
+        return policemanService.listEventByNameAsc();
+    }
+
+    @GetMapping("/list/name/desc")
+    @ResponseBody
+    public Result<List<User>> listEventByNameDesc(){
+        return policemanService.listEventByNameDesc();
+    }
+
+    @GetMapping("/list/age/asc")
+    @ResponseBody
+    public Result<List<User>> listEventByAgeAsc(){
+        return policemanService.listEventByAgeAsc();
+    }
+
+    @GetMapping("/list/age/desc")
+    @ResponseBody
+    public Result<List<User>> listEventByAgeDesc(){
+        return policemanService.listEventByAgeDesc();
+    }
+
+    @GetMapping("/list/department/asc")
+    @ResponseBody
+    public Result<List<User>> listEventByDepartmentAsc(){
+        return policemanService.listEventByDepartmentAsc();
+    }
+
+    @GetMapping("/list/department/desc")
+    @ResponseBody
+    public Result<List<User>> listEventByDepartmentDesc(){
+        return policemanService.listEventByDepartmentDesc();
+    }
+
+    @GetMapping("/list/time/asc")
+    @ResponseBody
+    public Result<List<User>> listEventByTimeAsc(){
+        return policemanService.listEventByTimeAsc();
+    }
+
+    @GetMapping("/list/time/desc")
+    @ResponseBody
+    public Result<List<User>> listEventByTimeDesc(){
+        return policemanService.listEventByTimeDesc();
+    }
 
 }

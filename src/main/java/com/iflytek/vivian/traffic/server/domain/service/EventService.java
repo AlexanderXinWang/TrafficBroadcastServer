@@ -140,8 +140,7 @@ public class EventService {
      * @return
      */
     public Result<List<Event>> listEvent() {
-        Sort sort = new Sort(Sort.Direction.DESC, "startTime");
-        return Result.success(eventDao.findAll(sort));
+        return Result.success(eventDao.findAll());
     }
 
     /**
@@ -151,6 +150,48 @@ public class EventService {
      */
     public Result<Event> selectEvent(String eventId) {
         return Result.success(eventDao.findOne(eventId));
+    }
+
+    /**
+     * 查询所有警情（时间升序）
+     * @return
+     */
+    public Result<List<Event>> listEventByTimeAsc() {
+        Sort sort = new Sort(Sort.Direction.ASC, "startTime");
+        return Result.success(eventDao.findAll(sort));
+    }
+
+    /**
+     * 查询所有警情（时间降序）
+     * @return
+     */
+    public Result<List<Event>> listEventByTimeDesc() {
+        Sort sort = new Sort(Sort.Direction.DESC, "startTime");
+        return Result.success(eventDao.findAll(sort));
+    }
+
+    public Result<List<Event>> listEventByEventAsc() {
+        return Result.success(eventDao.orderByEventAsc());
+    }
+
+    public Result<List<Event>> listEventByEventDesc() {
+        return Result.success(eventDao.orderByEventDesc());
+    }
+
+    public Result<List<Event>> listEventByLocationAsc() {
+        return Result.success(eventDao.orderByLocationAsc());
+    }
+
+    public Result<List<Event>> listEventByLocationDesc() {
+        return Result.success(eventDao.orderByLocationDesc());
+    }
+
+    public Result<List<Event>> listEventByNameAsc() {
+        return Result.success(eventDao.orderByNameAsc());
+    }
+
+    public Result<List<Event>> listEventByNameDesc() {
+        return Result.success(eventDao.orderByNameDesc());
     }
 
     /**
@@ -168,6 +209,4 @@ public class EventService {
     public void openEventNotify() {
 
     }
-
-
 }

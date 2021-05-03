@@ -2,6 +2,7 @@ package com.iflytek.vivian.traffic.server.domain.service;
 
 import com.iflytek.vivian.traffic.server.constants.ErrorCode;
 import com.iflytek.vivian.traffic.server.domain.dao.IPolicemanDao;
+import com.iflytek.vivian.traffic.server.domain.entity.Event;
 import com.iflytek.vivian.traffic.server.domain.entity.User;
 import com.iflytek.vivian.traffic.server.dto.Result;
 import com.iflytek.vivian.traffic.server.dto.UserDto;
@@ -186,5 +187,49 @@ public class PolicemanService {
     }
 
 
+    public Result<List<User>> listEventByNameAsc() {
+        return Result.success(policemanDao.orderByNameAsc());
+    }
 
+    public Result<List<User>> listEventByNameDesc() {
+        return Result.success(policemanDao.orderByNameDesc());
+    }
+
+    public Result<List<User>> listEventByDepartmentAsc() {
+        return Result.success(policemanDao.orderByDepartmentAsc());
+    }
+
+    public Result<List<User>> listEventByDepartmentDesc() {
+        return Result.success(policemanDao.orderByDepartmentDesc());
+    }
+
+    public Result<List<User>> listEventByIdAsc() {
+        Sort sort = new Sort(Sort.Direction.ASC, "id");
+        return Result.success(policemanDao.findAll(sort));
+    }
+
+    public Result<List<User>> listEventByIdDesc() {
+        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        return Result.success(policemanDao.findAll(sort));
+    }
+
+    public Result<List<User>> listEventByAgeAsc() {
+        Sort sort = new Sort(Sort.Direction.ASC, "age");
+        return Result.success(policemanDao.findAll(sort));
+    }
+
+    public Result<List<User>> listEventByAgeDesc() {
+        Sort sort = new Sort(Sort.Direction.DESC, "age");
+        return Result.success(policemanDao.findAll(sort));
+    }
+
+    public Result<List<User>> listEventByTimeAsc() {
+        Sort sort = new Sort(Sort.Direction.DESC, "create_time");
+        return Result.success(policemanDao.findAll(sort));
+    }
+
+    public Result<List<User>> listEventByTimeDesc() {
+        Sort sort = new Sort(Sort.Direction.DESC, "create_time");
+        return Result.success(policemanDao.findAll(sort));
+    }
 }

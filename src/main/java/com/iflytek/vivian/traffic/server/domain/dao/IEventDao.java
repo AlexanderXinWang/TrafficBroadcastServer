@@ -3,6 +3,7 @@ package com.iflytek.vivian.traffic.server.domain.dao;
 import com.iflytek.vivian.traffic.server.domain.entity.Event;
 import com.iflytek.vivian.traffic.server.domain.service.EventService;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,10 +16,25 @@ import java.util.List;
  * @Version 1.0
  **/
 
-
 public interface IEventDao extends JpaRepository<Event, String> {
 
+    @Query(value = "SELECT * FROM `t_event` ORDER BY CONVERT(`event` USING gbk) COLLATE gbk_chinese_ci ASC", nativeQuery = true)
+    List<Event> orderByEventAsc();
 
+    @Query(value = "SELECT * FROM `t_event` ORDER BY CONVERT(`event` USING gbk) COLLATE gbk_chinese_ci DESC", nativeQuery = true)
+    List<Event> orderByEventDesc();
+
+    @Query(value = "SELECT * FROM `t_event` ORDER BY CONVERT(`location` USING gbk) COLLATE gbk_chinese_ci ASC", nativeQuery = true)
+    List<Event> orderByLocationAsc();
+
+    @Query(value = "SELECT * FROM `t_event` ORDER BY CONVERT(`location` USING gbk) COLLATE gbk_chinese_ci DESC", nativeQuery = true)
+    List<Event> orderByLocationDesc();
+
+    @Query(value = "SELECT * FROM `t_event` ORDER BY CONVERT(`policeman_name` USING gbk) COLLATE gbk_chinese_ci ASC", nativeQuery = true)
+    List<Event> orderByNameAsc();
+
+    @Query(value = "SELECT * FROM `t_event` ORDER BY CONVERT(`policeman_name` USING gbk) COLLATE gbk_chinese_ci DESC", nativeQuery = true)
+    List<Event> orderByNameDesc();
 
     /**
      * 根据 警员id和事件状态查找事件
@@ -33,12 +49,12 @@ public interface IEventDao extends JpaRepository<Event, String> {
      * @param status
      * @return
      */
-//    List<Event> findByStatusAndIsPlay(String status, String isPlay);
+    List<Event> findByStatusAndIsPlay(String status, String isPlay);
 
     /**
      * 查询未处理的上报事件
      * @param status
      * @return
      */
-//    List<Event> findByStatus(String status);
+    List<Event> findByStatus(String status);
 }
