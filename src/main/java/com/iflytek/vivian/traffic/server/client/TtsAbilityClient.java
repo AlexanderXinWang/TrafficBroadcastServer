@@ -81,7 +81,7 @@ public class TtsAbilityClient {
             String url = authUrl.toString().replace("http://", "ws://").replace("https://", "wss://");
             Request request = new Request.Builder().url(url).build();
             // 存放音频的文件
-            File file = new File("src/main/resources/tts/" + fileName + ".pcm");
+            File file = new File("/project/pcm/" + fileName + ".pcm");
             if (!file.exists()) {
                 file.createNewFile();
             }

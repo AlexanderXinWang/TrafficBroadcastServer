@@ -68,4 +68,6 @@ public interface IEventDao extends JpaRepository<Event, String> {
      * @return
      */
     List<Event> findByStatus(String status);
+
+    List<Event> findEventsByIsPlay(String isPlay);
 }

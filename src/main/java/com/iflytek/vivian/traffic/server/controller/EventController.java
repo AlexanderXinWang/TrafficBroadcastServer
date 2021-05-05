@@ -131,7 +131,7 @@ public class EventController {
     @PostMapping("/{userId}/record")
     @ResponseBody
     public Result<List<Event>> getReportedEventList(@PathVariable String userId) {
-        return eventService.getPolicemanRecord(userId);
+        return eventService.listEventByPolicemanId(userId);
     }
 
     @GetMapping("/list/time/asc")
@@ -184,20 +184,12 @@ public class EventController {
 
     /**
      * 播放警情事件（开/关）
-     * @param ttsDto
      * @return
      */
-    @PostMapping("playEvent")
+    @GetMapping("play")
     @ResponseBody
-    public Result<String> playEvent(TtsDto ttsDto) {
-        if (ttsDto.isPlay()) {
-            ttsDto.setPlay(false);
-            eventService.closeEventNotify();
-        } else {
-            ttsDto.setPlay(true);
-            eventService.openEventNotify();
-        }
-        return null;
+    public Result<List<String>> playEvent() {
+        return eventService.playEvent();
     }
 
     @PostMapping("/tts")
@@ -211,5 +203,6 @@ public class EventController {
             return Result.fail(ErrorCode.FAIL);
         }
     }
+
 
 }

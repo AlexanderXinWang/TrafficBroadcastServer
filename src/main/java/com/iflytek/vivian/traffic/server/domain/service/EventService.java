@@ -1,11 +1,11 @@
 package com.iflytek.vivian.traffic.server.domain.service;
 
-import com.iflytek.vivian.traffic.server.client.TtsAbilityClient;
 import com.iflytek.vivian.traffic.server.constants.Constants;
 import com.iflytek.vivian.traffic.server.constants.ErrorCode;
 import com.iflytek.vivian.traffic.server.domain.dao.IEventDao;
 import com.iflytek.vivian.traffic.server.domain.entity.Event;
 import com.iflytek.vivian.traffic.server.dto.*;
+import com.iflytek.vivian.traffic.server.utils.TtsUtil;
 import com.iflytek.vivian.traffic.server.utils.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,9 @@ public class EventService {
 
     @Autowired
     private IEventDao eventDao;
+
+    @Autowired
+    private TtsUtil ttsUtil;
 
     /**
      * 事件上报入库
@@ -65,7 +68,7 @@ public class EventService {
             event.setIatResult(eventDto.getIatResult());
 //            event.setStatus(Constants.EventState.EventReport.getValue());
             event.setIsPlay("0");
-//            event.setUpdateTime(new Date());
+            event.setPcm(ttsUtil.generatePcmUrl(event));
 
             eventDao.save(event);
 
@@ -126,6 +129,7 @@ public class EventService {
             event.setIsPlay(eventDto.getIsPlay());
 //          TODO  event.setDesc();
             event.setIatResult(eventDto.getIatResult());
+            event.setPcm(ttsUtil.generatePcmUrl(event));
 
             eventDao.save(event);
 
@@ -140,7 +144,8 @@ public class EventService {
      * @return
      */
     public Result<List<Event>> listEvent() {
-        return Result.success(eventDao.findAll());
+        Sort sort = new Sort(Sort.Direction.DESC, "startTime");
+        return Result.success(eventDao.findAll(sort));
     }
 
     /**
@@ -157,7 +162,7 @@ public class EventService {
      * @param userId
      * @return
      */
-    public Result<List<Event>> getPolicemanRecord(String userId) {
+    public Result<List<Event>> listEventByPolicemanId(String userId) {
         return Result.success(eventDao.findEventsByPolicemanId(userId));
     }
 
@@ -203,21 +208,20 @@ public class EventService {
         return Result.success(eventDao.orderByNameDesc());
     }
 
-    /**
-     * 关闭消息推送服务
-     * @Desciption TODO
-     */
-    public void closeEventNotify() {
+    public Result<List<String>> playEvent() {
+        List<Event> eventList = eventDao.findEventsByIsPlay("0");
 
+        if (eventList == null) {
+            return Result.fail("未查询到未播放事件");
+        }
+
+        List<String> pcmList = new ArrayList<>();
+        for (Event event : eventList) {
+            pcmList.add(event.getPcm());
+        }
+        if (pcmList == null) {
+            return Result.fail("未查询到未播放事件");
+        }
+        return Result.success(pcmList);
     }
-
-    /**
-     * 开启消息推送服务
-     * @Desciption TODO
-     */
-    public void openEventNotify() {
-
-    }
-
-
 }

@@ -141,10 +141,10 @@ public class PolicemanService {
             if (null == user || !userDto.getId().equals(user.getId())){
                 return Result.fail("未查找到指定警员");
             }
+            if (!StringUtils.isEmpty(userDto.getPassword())) {
+                user.setPassword(userDto.getPassword());
+            }
 
-
-
-            user.setPassword(userDto.getPassword());
             user.setName(userDto.getName());
 
             if (StringUtils.isEmpty(userDto.getIsAdmin())) {

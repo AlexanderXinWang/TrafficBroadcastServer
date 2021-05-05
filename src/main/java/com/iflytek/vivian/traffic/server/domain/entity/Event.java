@@ -55,7 +55,7 @@ public class Event {
     private String iatResult;
 
     @Column(name = "pcm")
-    private byte[] pcm;
+    private String pcm;
 
     /**
      * 事件发生时间
@@ -108,7 +108,5 @@ public class Event {
      */
     @Column
     private String type;
-
-
 
 }

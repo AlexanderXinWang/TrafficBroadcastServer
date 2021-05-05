@@ -78,6 +78,12 @@ public class User {
     @Column(name="update_time")
     private Date updateTime;
 
+    /**
+     * 头像图片地址
+     */
+    @Column(name = "image_url")
+    private String imageUrl;
+
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**

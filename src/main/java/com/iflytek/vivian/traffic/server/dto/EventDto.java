@@ -21,4 +21,5 @@ public class EventDto {
     private String status;
     private String isPlay;
     private String iatResult;
+    private String pcm;
 }

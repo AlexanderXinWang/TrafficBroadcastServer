@@ -2,6 +2,7 @@ package com.iflytek.vivian.traffic.server.dto;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import java.util.Date;
 
 /**
@@ -51,6 +52,11 @@ public class UserDto {
      * 更新时间
      */
     private Date updateTime;
+
+    /**
+     * 头像图片地址
+     */
+    private String imageUrl;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
