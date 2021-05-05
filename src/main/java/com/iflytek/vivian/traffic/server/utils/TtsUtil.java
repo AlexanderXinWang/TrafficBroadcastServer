@@ -17,14 +17,14 @@ public class TtsUtil {
     @Autowired
     TtsAbilityClient ttsAbilityClient;
 
-    public String generatePcmUrl(Event event) {
+    public String generateMp3Url(Event event) {
         String text = event.getStartTime() + event.getLocation() + "发生事件" + event.getEvent()
                 + "车辆类型为" + event.getVehicle() + "事件结果是" + event.getEventResult() ;
         String fileName = event.getId();
 
         ttsAbilityClient.tts(text, fileName);
 
-        String pcmUrl = "http://1.15.78.72:8080/pcm/" + event.getId() + ".pcm";
+        String pcmUrl = "http://1.15.78.72:8080/mp3/" + event.getId() + ".mp3";
         return pcmUrl;
     }
 }

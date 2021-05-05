@@ -81,13 +81,13 @@ public class TtsAbilityClient {
             String url = authUrl.toString().replace("http://", "ws://").replace("https://", "wss://");
             Request request = new Request.Builder().url(url).build();
             // 存放音频的文件
-            File file = new File("/project/pcm/" + fileName + ".pcm");
+            File file = new File("/project/mp3/" + fileName + ".mp3");
             if (!file.exists()) {
                 file.createNewFile();
             }
             FileOutputStream os = new FileOutputStream(file);
 
-            final CountDownLatch latch=new CountDownLatch(1);
+//            final CountDownLatch latch=new CountDownLatch(1);
 
             WebSocket webSocket = client.newWebSocket(request, new WebSocketListener() {
                 @Override
@@ -106,7 +106,7 @@ public class TtsAbilityClient {
                     // 填充common
                     common.addProperty("app_id", appId);
                     //填充business
-                    business.addProperty("aue", "raw");
+                    business.addProperty("aue", "lame");
                     business.addProperty("tte", "UTF8");//小语种必须使用UNICODE编码
                     business.addProperty("vcn", "xiaoyan");//到控制台-我的应用-语音合成-添加试用或购买发音人，添加后即显示该发音人参数值，若试用未添加的发音人会报错11200
                     business.addProperty("pitch", 50);
@@ -154,12 +154,12 @@ public class TtsAbilityClient {
                             }
                             if (resp.getData().status == 2) {
                                 // todo  resp.data.status ==2 说明数据全部返回完毕，可以关闭连接，释放资源
-                                System.out.println("session end ");
-                                System.out.println("合成的音频文件保存在：" + file.getPath());
+                                log.info("session end ");
+                                log.info("合成的音频文件保存在：" + file.getPath());
                                 webSocket.close(1000, "");
                                 try {
                                     os.close();
-                                    latch.countDown();
+//                                    latch.countDown();
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -188,11 +188,11 @@ public class TtsAbilityClient {
                 }
             });
 
-            try {
+            /*try {
                 latch.await(100, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
                 log.error("tts服务请求超时", e.getMessage());
-            }
+            }*/
 
             return Result.success(file);
         } catch (Exception e) {

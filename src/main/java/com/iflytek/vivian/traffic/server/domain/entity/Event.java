@@ -54,8 +54,7 @@ public class Event {
     @Column(name="iat_result")
     private String iatResult;
 
-    @Column(name = "pcm")
-    private String pcm;
+    private String mp3;
 
     /**
      * 事件发生时间

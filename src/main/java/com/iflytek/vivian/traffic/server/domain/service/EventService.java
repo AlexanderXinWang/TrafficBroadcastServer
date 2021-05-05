@@ -68,7 +68,7 @@ public class EventService {
             event.setIatResult(eventDto.getIatResult());
 //            event.setStatus(Constants.EventState.EventReport.getValue());
             event.setIsPlay("0");
-            event.setPcm(ttsUtil.generatePcmUrl(event));
+            event.setMp3(ttsUtil.generateMp3Url(event));
 
             eventDao.save(event);
 
@@ -122,14 +122,13 @@ public class EventService {
             event.setPolicemanName(eventDto.getPolicemanName());
             event.setLocation(eventDto.getLocation());
             event.setVehicle(eventDto.getVehicle());
-            event.setEvent(event.getEvent());
-            event.setEventResult(event.getEventResult());
+            event.setEvent(eventDto.getEvent());
+            event.setEventResult(eventDto.getEventResult());
             event.setUpdateTime(new Date());
             event.setStatus(event.getStatus());
-            event.setIsPlay(eventDto.getIsPlay());
+            event.setIsPlay("0");
 //          TODO  event.setDesc();
-            event.setIatResult(eventDto.getIatResult());
-            event.setPcm(ttsUtil.generatePcmUrl(event));
+            event.setMp3(ttsUtil.generateMp3Url(event));
 
             eventDao.save(event);
 
@@ -215,13 +214,15 @@ public class EventService {
             return Result.fail("未查询到未播放事件");
         }
 
-        List<String> pcmList = new ArrayList<>();
+        List<String> mp3List = new ArrayList<>();
         for (Event event : eventList) {
-            pcmList.add(event.getPcm());
+            mp3List.add(event.getMp3());
+            event.setIsPlay("1");
+            eventDao.save(event);
         }
-        if (pcmList == null) {
+        if (mp3List == null) {
             return Result.fail("未查询到未播放事件");
         }
-        return Result.success(pcmList);
+        return Result.success(mp3List);
     }
 }
