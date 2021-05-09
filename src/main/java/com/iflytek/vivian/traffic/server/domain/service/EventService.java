@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -30,6 +31,8 @@ public class EventService {
 
     @Autowired
     private TtsUtil ttsUtil;
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm");
 
     /**
      * 事件上报入库
@@ -67,6 +70,7 @@ public class EventService {
 
             event.setIatResult(eventDto.getIatResult());
 //            event.setStatus(Constants.EventState.EventReport.getValue());
+//            event.setPolicemanImage()
             event.setIsPlay("0");
             event.setMp3(ttsUtil.generateMp3Url(event));
 

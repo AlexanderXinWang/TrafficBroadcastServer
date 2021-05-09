@@ -24,7 +24,7 @@ public class NlpServerTest {
     @Test
     public void textAnalyse() {
         String source = " \"text\": \"地点是望江西路666号，车辆类型是两个电动车，事件是两车相撞，现在人在医院，电动车在现场，有人员头部受伤，事件结果是撞的挺严重，不清醒，在医院接受治疗。\" ";
-        String source2 = " \"text\": \"地点是西北路499号，事件是两车相撞，车辆类型是家用轿车，事件结果是人在医院。\"";
+        String source2 = " \"text\": \"地点是习友路，事件是两车相撞，车辆类型是家用轿车，事件结果是人在医院。\"";
         EventDto result = nlpService.getEventCase(source2);
         System.out.println(result);
         System.out.println("result = " + JSON.toJSONString(result));

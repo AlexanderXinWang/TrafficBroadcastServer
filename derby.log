@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Mon May 03 12:20:14 GMT+08:00 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): instance a816c00e-0179-3074-86e9-000006a15fc8 
-on database directory memory:C:\Users\AlexanderWang\Desktop\TrafficBroadcastSystem\TrafficBroadcastServer\testdb with class loader sun.misc.Launcher$ExtClassLoader@1bce4f0a 
+Wed May 05 23:14:11 GMT+08:00 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): instance a816c00e-0179-3d17-f63e-000005fccef0 
+on database directory memory:C:\Users\AlexanderWang\Desktop\TrafficBroadcastSystem\TrafficBroadcastServer\testdb with class loader sun.misc.Launcher$ExtClassLoader@28c97a5 
 Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_181/jre/lib/ext/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_181-b13

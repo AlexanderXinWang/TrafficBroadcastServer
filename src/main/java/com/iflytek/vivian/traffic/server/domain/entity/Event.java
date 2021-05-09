@@ -27,6 +27,9 @@ public class Event {
     @Column(name = "policeman_name")
     private String policemanName;
 
+    @Column(name = "policeman_image")
+    private String policemanImage;
+
     /**
      * 事件发生地
      */
@@ -80,6 +83,12 @@ public class Event {
     @Column(name="update_time")
     private Date updateTime;
 
+    /**
+     * 是否播报
+     */
+    @Column(name="is_play")
+    private String isPlay;
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////
     //待用字段
@@ -90,11 +99,7 @@ public class Event {
     @Column
     private String status;
 
-    /**
-     * 是否播报
-     */
-    @Column(name="is_play")
-    private String isPlay;
+
 
     /**
      * 事件备注

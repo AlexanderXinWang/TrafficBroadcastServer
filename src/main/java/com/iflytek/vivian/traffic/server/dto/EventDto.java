@@ -14,6 +14,7 @@ public class EventDto {
     private String id;
     private String policemanId;
     private String policemanName;
+    private String policemanImage;
     private String location;
     private String vehicle;
     private String event;

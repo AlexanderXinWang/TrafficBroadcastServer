@@ -78,7 +78,7 @@ public class IatAbilityClient {
     private static Date dateBegin = new Date();
     // 结束时间
     private static Date dateEnd = new Date();
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm:ss.SSS");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm");
 
     /**
      * spring初始化时调用，实现bean的初始化
@@ -261,7 +261,6 @@ public class IatAbilityClient {
                 }
             }
         });
-
 
         try {
             latch.await(100, TimeUnit.SECONDS);
