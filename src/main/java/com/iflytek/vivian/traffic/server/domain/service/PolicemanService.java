@@ -99,6 +99,9 @@ public class PolicemanService {
             } else {
                 user.setIsAdmin(userDto.getIsAdmin());
             }
+            if (!StringUtils.isEmpty(userDto.getImageUrl())) {
+                user.setImageUrl(userDto.getImageUrl());
+            }
 //            policemanDao.save(user);
 //            policemanDao.flush();
             policemanDao.saveAndFlush(user);
@@ -150,9 +153,12 @@ public class PolicemanService {
             if (!StringUtils.isEmpty(userDto.getPassword())) {
                 user.setPassword(userDto.getPassword());
             }
-
-            user.setName(userDto.getName());
-
+            if (!StringUtils.isEmpty(userDto.getImageUrl())) {
+                user.setImageUrl(userDto.getImageUrl());
+            }
+            if (!StringUtils.isEmpty(userDto.getImageUrl())) {
+                user.setName(userDto.getName());
+            }
             if (StringUtils.isEmpty(userDto.getIsAdmin())) {
                 user.setIsAdmin(0);
             } else {
@@ -166,6 +172,7 @@ public class PolicemanService {
             user.setAge(userDto.getAge());
             user.setDepartment(userDto.getDepartment());
             user.setUpdateTime(new Date());
+
 
             policemanDao.save(user);
             return Result.success(user);
