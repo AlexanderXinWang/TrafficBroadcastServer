@@ -7,6 +7,8 @@ import com.iflytek.vivian.traffic.server.domain.entity.User;
 import com.iflytek.vivian.traffic.server.dto.Result;
 import com.iflytek.vivian.traffic.server.dto.UserDto;
 import com.iflytek.vivian.traffic.server.utils.UUIDUtil;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
@@ -16,6 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +31,7 @@ import java.util.List;
  * @Author xinwang41
  * @Date 2021/1/4 10:45
  **/
-
+@Slf4j
 @Component
 public class PolicemanService {
     @Autowired
@@ -233,4 +239,31 @@ public class PolicemanService {
         return Result.success(policemanDao.findAll(sort));
     }
 
+    public Result<String> uploadImage(MultipartFile image, String userId) {
+        try {
+//            File file = new File("C:\\Users\\AlexanderWang\\Pictures\\" + userId + ".jpg");
+            File file = new File("/project/image/" + userId + ".jpg");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            image.transferTo(file);
+        } catch (FileNotFoundException e) {
+            log.error("未找到指定文件：" + e.getMessage());
+            return Result.fail("未找到指定文件：" + e.getMessage());
+        } catch (IOException e) {
+            log.error("输入输出流出错：" + e.getMessage());
+            return Result.fail("输入输出流出错：" + e.getMessage());
+        }
+        return Result.success("http://1.15.78.72:8080/images/" + userId + ".jpg");
+    }
+
+    public Result<String> getImageUrl(String userId) {
+        User user = policemanDao.findOne(userId);
+        if (user != null) {
+            return Result.success(user.getImageUrl());
+        } else {
+            log.error("未查找到指定用户");
+            return Result.fail("未查找到指定用户");
+        }
+    }
 }

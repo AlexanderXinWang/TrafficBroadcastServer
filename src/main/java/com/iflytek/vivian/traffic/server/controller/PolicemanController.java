@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -96,6 +97,12 @@ public class PolicemanController {
         return policemanService.selectPoliceman(userId);
     }
 
+    @PostMapping("/{userId}/image/upload")
+    @ResponseBody
+    public Result<String> uploadImage(@RequestPart("image") MultipartFile image, @PathVariable String userId) {
+        return policemanService.uploadImage(image, userId);
+    }
+
     @GetMapping("/list/id/asc")
     @ResponseBody
     public Result<List<User>> listUserByIdAsc(){
@@ -156,7 +163,11 @@ public class PolicemanController {
         return policemanService.listPolicemanByTimeDesc();
     }
 
-
+    @PostMapping("/{userId}/image")
+    @ResponseBody
+    public Result<String> getImageUrl(@PathVariable String userId) {
+        return policemanService.getImageUrl(userId);
+    }
 
 
 }
