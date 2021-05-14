@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -264,6 +265,11 @@ public class PolicemanService {
         return Result.success("http://1.15.78.72:8080/images/" + userId + ".jpg");
     }
 
+    /**
+     * 获取头像url
+     * @param userId
+     * @return
+     */
     public Result<String> getImageUrl(String userId) {
         User user = policemanDao.findOne(userId);
         if (user != null) {
@@ -272,5 +278,55 @@ public class PolicemanService {
             log.error("未查找到指定用户");
             return Result.fail("未查找到指定用户");
         }
+    }
+
+    /**
+     * 更新用户头像
+     * @param userDto
+     * @return
+     */
+    public Result<Boolean> changeUserImage(UserDto userDto) {
+        User user = policemanDao.findOne(userDto.getId());
+        if (!StringUtils.isEmpty(userDto.getImageUrl())) {
+            user.setImageUrl(userDto.getImageUrl());
+            policemanDao.saveAndFlush(user);
+            return Result.success(true);
+        } else {
+            log.error("未查找到指定用户，更新用户头像失败！");
+            return Result.fail(ErrorCode.FAIL, "未查找到指定用户，更新用户头像失败！");
+        }
+    }
+
+    /**
+     * 检验旧密码
+     * @param userDto
+     * @return
+     */
+    public Result<Boolean> checkOldPassword(UserDto userDto) {
+        User user = policemanDao.findOne(userDto.getId());
+        if (user != null) {
+            if (user.getPassword().equals(userDto.getPassword())) {
+                policemanDao.save(user);
+                return Result.success(true);
+            }
+        }
+        log.error("旧密码检验（checkOldPassword）：未找到用户");
+        return Result.fail(ErrorCode.FAIL, "旧密码检验（checkOldPassword）：找到用户");
+    }
+
+    /**
+     * 更新用户密码
+     * @param userDto
+     * @return
+     */
+    public Result<Boolean> updateUserPassword(UserDto userDto) {
+        User user = policemanDao.findOne(userDto.getId());
+        if (user != null) {
+            user.setPassword(userDto.getPassword());
+            policemanDao.save(user);
+            return Result.success(true);
+        }
+        log.error("更新密码（updateUserPassword）：未找到用户");
+        return Result.fail(ErrorCode.FAIL, "更新密码（updateUserPassword）：找到用户");
     }
 }

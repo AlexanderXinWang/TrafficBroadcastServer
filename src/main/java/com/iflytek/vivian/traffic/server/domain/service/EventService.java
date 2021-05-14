@@ -51,7 +51,8 @@ public class EventService {
             event.setPolicemanName(eventDto.getPolicemanName());
             // 创建新事件 默认为未处理 赋值1
             eventDto.setStatus(Constants.EventState.EventReport.getValue());
-            event.setStartTime(new Date());
+
+            event.setStartTime(eventDto.getStartTime());
             event.setCreateTime(new Date());
 
             // 字段为空或者传入不为空时—>赋值覆盖
@@ -128,6 +129,7 @@ public class EventService {
             event.setVehicle(eventDto.getVehicle());
             event.setEvent(eventDto.getEvent());
             event.setEventResult(eventDto.getEventResult());
+            event.setStartTime(eventDto.getStartTime());
             event.setUpdateTime(new Date());
             event.setStatus(event.getStatus());
             event.setIsPlay("0");

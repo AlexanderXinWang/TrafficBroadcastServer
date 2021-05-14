@@ -3,6 +3,8 @@ package com.iflytek.vivian.traffic.server.dto;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 /**
  * @ClassName EventDto
  * @Author xinwang41
@@ -23,4 +25,5 @@ public class EventDto {
     private String isPlay;
     private String iatResult;
     private String pcm;
+    private Date startTime;
 }

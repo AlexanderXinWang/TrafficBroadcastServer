@@ -128,7 +128,7 @@ public class EventController {
      * @param userId
      * @return
      */
-    @PostMapping("/{userId}/record")
+    @PostMapping("/list/{userId}")
     @ResponseBody
     public Result<List<Event>> getReportedEventList(@PathVariable String userId) {
         return eventService.listEventByPolicemanId(userId);
