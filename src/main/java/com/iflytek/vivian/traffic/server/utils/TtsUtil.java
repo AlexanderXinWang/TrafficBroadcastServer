@@ -18,8 +18,10 @@ public class TtsUtil {
     TtsAbilityClient ttsAbilityClient;
 
     public String generateMp3Url(Event event) {
-        String text = event.getStartTime() + event.getLocation() + "发生事件" + event.getEvent()
-                + "车辆类型为" + event.getVehicle() + "事件结果是" + event.getEventResult() ;
+//        String text = event.getStartTime() + event.getLocation() + "发生事件" + event.getEvent()
+//                + "车辆类型为" + event.getVehicle() + "事件结果是" + event.getEventResult() ;
+        String text = "实时，" + event.getLocation() + "，发生事件" + event.getEvent()
+                + "，车辆类型为" + event.getVehicle() + "，事件结果是" + event.getEventResult() ;
         String fileName = event.getId();
 
         ttsAbilityClient.tts(text, fileName);
