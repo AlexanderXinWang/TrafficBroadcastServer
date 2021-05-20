@@ -1,6 +1,8 @@
 
+import com.iflytek.vivian.traffic.server.client.TtsAbilityClient;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -14,6 +16,10 @@ import java.util.Arrays;
 
 
 public class PcmTest {
+
+    @Autowired
+    TtsAbilityClient ttsAbilityClient;
+
     private static float RATE = 16000;
     //编码格式PCM
     private static AudioFormat.Encoding ENCODING = AudioFormat.Encoding.PCM_SIGNED;
@@ -94,10 +100,15 @@ public class PcmTest {
 
     @Test
     public void test() {
-        String wavFilePath="C:\\Users\\AlexanderWang\\Desktop\\TrafficBroadcastSystem\\testVoice\\录音.wav";
-        String pcmFilePath="C:\\Users\\AlexanderWang\\Desktop\\TrafficBroadcastSystem\\testVoice\\test.pcm";
-        convertAudioFiles(wavFilePath,pcmFilePath);
-        System.out.println("OK");
+//        String wavFilePath="C:\\Users\\AlexanderWang\\Desktop\\TrafficBroadcastSystem\\testVoice\\录音.wav";
+//        String pcmFilePath="C:\\Users\\AlexanderWang\\Desktop\\TrafficBroadcastSystem\\testVoice\\test.pcm";
+//        convertAudioFiles(wavFilePath,pcmFilePath);
+//        System.out.println("OK");
+
+        String text = "实时，" + "静园东路48号" + "，发生事件" + "两车相撞"
+                + "，车辆类型为" + "家用轿车" + "，事件结果是" + "人在医院";
+
+        ttsAbilityClient.tts(text, "test");
     }
 
 }
