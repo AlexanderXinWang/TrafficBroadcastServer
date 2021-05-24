@@ -68,7 +68,7 @@ public class StringUtil {
         List<Position> posList = new ArrayList<>();
 
         for (Map.Entry<String, String> entry : nlpMapConfig.getMapProps().entrySet()) {
-            String reg = "[\\u4e00-\\u9fa5]*" + entry.getValue();
+            String reg = "[\\u4e00-\\u9fa5]*" + entry.getValue();   //中文匹配
             Pattern pat = Pattern.compile(reg);
             Matcher mat = pat.matcher(text);
             if (mat.find()) {
